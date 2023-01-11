@@ -20,7 +20,7 @@ if (isGitHubActions) {
 const nextConfig = {
   reactStrictMode: true,
   assetPrefix: '/ycpspta-www/',
-  basePath: '/ycpspta-www/',
+  basePath: '/ycpspta-www',
   images: {
     unoptimized: true
   }
