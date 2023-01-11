@@ -14,6 +14,8 @@ This page is a developer's note on the development of this project.
 
     - Configure GitHub to enable Pages with `gh-pages` branch. Create the branch `gh-pages` first.
     - Configure GitHub Actions with a build and deploy workflow (.yml).
+        - Upload repo Deploy Key and Actions secrets ([ref](https://github.com/gregrickaby/nextjs-github-pages))
+        - Consume `${{ secrets.ACTIONS_DEPLOY_KEY }}` in workflow action
     - Configure Next.js to load resources from `/<repo>`.
     - Optionally configure next/Image loader. (not yet)
         - Instead I disable image API optimization.

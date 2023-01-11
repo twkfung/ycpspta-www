@@ -10,8 +10,9 @@ if (isGitHubActions) {
   assetPrefix = `/${repo}/`
   basePath = `/${repo}`
 } else if (process.env.NODE_ENV === 'development') {
-
+  // no change in development server
 } else {
+  // prefix subpath for local export
   const folder = 'pta'
   assetPrefix = `/${folder}/`
   basePath = `/${folder}`
