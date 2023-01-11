@@ -20,7 +20,10 @@ if (isGitHubActions) {
 const nextConfig = {
   reactStrictMode: true,
   assetPrefix,
-  basePath
+  basePath,
+  images: {
+    unoptimized: true
+  }
 }
 
 module.exports = nextConfig
