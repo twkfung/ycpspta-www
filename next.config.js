@@ -19,7 +19,7 @@ if (isGitHubActions) {
 
 const nextConfig = {
   reactStrictMode: true,
-  assertPrefix: assetPrefix,
+  assetPrefix,
   basePath
 }
 
