@@ -19,3 +19,9 @@ This page is a developer's note on the development of this project.
     - Configure Next.js to load resources from `/<repo>`.
     - Optionally configure next/Image loader. (not yet)
         - Instead I disable image API optimization.
+
+## Routes under a Subpath
+By default Next.js serves the app at the root route.
+Since the GitHub Pages are published under the URL pattern: `<user>/<repo>`, we need to modify the base url for all links and
+prefix urls for assets in Next by providing `basePath` and `assetPrefix` in Next config. Next will rewrite links supplied to next/Link.
+Image assets provided to next/Image must be preparing using `import` image statements.
