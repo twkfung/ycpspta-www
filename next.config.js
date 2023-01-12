@@ -2,7 +2,7 @@
 
 const isGitHubActions = process.env.GITHUB_ACTIONS || false
 let assetPrefix = ''
-let basePath = '/'
+let basePath = ''
 
 if (isGitHubActions) {
   // get repo name from `<owner>/<repo>`
@@ -20,8 +20,8 @@ if (isGitHubActions) {
 
 const nextConfig = {
   reactStrictMode: true,
-  assetPrefix,
-  basePath,
+  assetPrefix: (assetPrefix === '' ? undefined : assetPrefix),
+  basePath: (basePath === '' ? undefined : basePath),
   images: {
     unoptimized: true
   }
