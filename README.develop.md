@@ -1,5 +1,6 @@
 # Developer's Notes
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app). It targets to deploy a static export to GitHub Pages using GitHub Actions monitoring on the branch `gh-pages. Packages used to create this project:
+- `create-next-app 13.1.1`
 - `Next.js 13.1.1`
 - `TypeScript 4.9.4`
 - `React 18.2.0`

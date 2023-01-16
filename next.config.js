@@ -13,7 +13,7 @@ if (isGitHubActions) {
   // no change in development server
 } else {
   // prefix subpath for local export
-  const folder = 'pta'
+  const folder = 'www'
   assetPrefix = `/${folder}/`
   basePath = `/${folder}`
 }
