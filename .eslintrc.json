@@ -1,3 +1,9 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": ["next/core-web-vitals", "prettier"],
+  "rules": {
+    "quotes": [2, "double"],
+    "semi": [2, "never"],
+    "react/display-name": "off",
+    "no-undef": "off"
+  }
 }
