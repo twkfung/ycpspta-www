@@ -7,14 +7,14 @@ let basePath = ""
 if (isGitHubActions) {
   // get repo name from `<owner>/<repo>`
   const repo = process.env.GITHUB_REPOSITORY.replace(/.*?\//, "")
-  assetPrefix = `/${repo}/`
+  assetPrefix = `/${repo}/`.replace("//", "/")
   basePath = `/${repo}`
 } else if (process.env.NODE_ENV === "development") {
   // no change in development server
 } else {
   // prefix subpath for local export
   const folder = "www"
-  assetPrefix = `/${folder}/`
+  assetPrefix = `/${folder}/`.replace("//", "/")
   basePath = `/${folder}`
 }
 
