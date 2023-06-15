@@ -3,7 +3,10 @@ import { fontsSans } from "./fonts"
 import { Metadata } from "next"
 import { Providers } from "./providers"
 
-const fontStyleDefault = fontsSans.map((font) => font.className).join(", ")
+const fontStyleDefault = [...fontsSans]
+  .reverse()
+  .map((font) => font.className)
+  .join(", ")
 
 export const metadata: Metadata = {
   title: "Create Next App",
