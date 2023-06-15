@@ -18,19 +18,19 @@ const fontFallbackMono = Roboto_Mono({ subsets: ["latin"] })
 // const fontFallbackSerif = Roboto_Slab({ subsets: ["latin"] })
 const fontEngSans = Noto_Sans_Display({ subsets: ["latin"] })
 const fontEngMono = Noto_Sans_Mono({ subsets: ["latin"] })
-const fontChiSansHK400 = Noto_Sans_HK({ weight: "400", preload: false })
-// const fontChiSansTC400 = Noto_Sans_TC({ weight: "400", preload: false })
-// const fontChiSansSC400 = Noto_Sans_SC({ weight: "400", preload: false })
-// const fontChiSerifHK400 = Noto_Serif_HK({ weight: "400", preload: false })
+const fontChiSansHK = Noto_Sans_HK({ weight: ["400", "700"], preload: false })
+// const fontChiSansTC = Noto_Sans_TC({ weight: "400", preload: false })
+// const fontChiSansSC = Noto_Sans_SC({ weight: "400", preload: false })
+// const fontChiSerifHK = Noto_Serif_HK({ weight: "400", preload: false })
 const fontSansSymbol = Noto_Sans_Symbols({ subsets: ["latin"] })
 const fontSansSymbol2 = Noto_Sans_Symbols({ weight: "400", subsets: ["latin"] })
 
 export const fontsSans = [
   fontEngSans,
-  // fontChiSerifHK400,
-  fontChiSansHK400,
-  // fontChiSansTC400,
-  // fontChiSansSC400,
+  // fontChiSerifHK,
+  fontChiSansHK,
+  // fontChiSansTC,
+  // fontChiSansSC,
   fontSansSymbol,
   fontSansSymbol2,
   fontFallbackSans,
