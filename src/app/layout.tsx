@@ -3,10 +3,7 @@ import { fontsSans } from "./fonts"
 import { Metadata } from "next"
 import { Providers } from "./providers"
 
-const fontStyleDefault = [...fontsSans]
-  .reverse()
-  .map((font) => font.className)
-  .join(", ")
+const fontFamily = fontsSans.map((font) => font.style.fontFamily).join(",")
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -21,7 +18,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={fontStyleDefault}>
+      <body style={{ fontFamily: fontFamily }}>
         <Providers>{children}</Providers>
       </body>
     </html>
