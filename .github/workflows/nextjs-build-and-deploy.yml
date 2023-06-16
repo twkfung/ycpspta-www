@@ -3,30 +3,29 @@
 name: GitHub Pages deploy
 on:
   push:
-   branches: [ main ]
+    branches: [main]
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-    - name: Use Node.js 18
-      uses: actions/setup-node@v3
-      with:
-        node-version: 18
-        cache: 'npm'
-    - name: Installing my packages
-      run: npm ci
-    - name: Build my App
-      # Suppress Jekyll not serving the _next folder
-      run: |
-        npm run build
-        npm run export
-        touch ./out/.nojekyll
-    - name: Deploy to GitHub Pages
-      uses: JamesIves/github-pages-deploy-action@v4.4.1
-      with:
-        branch: gh-pages # The branch the action should deploy to.
-        folder: out # The folder the action should deploy to.
-        ssh-key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Use Node.js 18
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: "npm"
+      - name: Installing my packages
+        run: npm ci
+      - name: Build my App
+        # Suppress Jekyll not serving the _next folder
+        run: |
+          npm run build
+          # npm run export
+          touch ./out/.nojekyll
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4.4.1
+        with:
+          branch: gh-pages # The branch the action should deploy to.
+          folder: out # The folder the action should deploy to.
+          ssh-key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
