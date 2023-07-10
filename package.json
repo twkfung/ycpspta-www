@@ -16,20 +16,20 @@
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@mui/material": "^5.13.7",
-    "next": "^13.4.8",
+    "next": "^13.4.9",
     "pino": "^8.14.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@total-typescript/ts-reset": "^0.4.2",
-    "@types/node": "^20.3.3",
+    "@types/node": "^20.4.1",
     "@types/react": "^18.2.14",
     "@types/react-dom": "^18.2.6",
     "eslint": "^8.44.0",
-    "eslint-config-next": "^13.4.8",
+    "eslint-config-next": "^13.4.9",
     "eslint-config-prettier": "^8.8.0",
-    "prettier": "^2.8.8",
+    "prettier": "^3.0.0",
     "typescript": "^5.1.6"
   },
   "prettier": {
