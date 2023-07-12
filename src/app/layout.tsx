@@ -19,9 +19,9 @@ export default function RootLayout({
     <html lang="zh">
       <body style={{ fontFamily: fontFamily }}>
         <Providers>
-          <header>
+          {/* <header>
             <Header />
-          </header>
+          </header> */}
           <nav>
             <Navbar />
           </nav>

@@ -1,5 +1,3 @@
-"use client"
-
 import { Box, Typography } from "@mui/material"
 
 export function Footer() {
@@ -11,8 +9,7 @@ export function Footer() {
       }}
     >
       <Typography align="center" variant="caption">
-        Copyright(c)2023 Yaumati Catholic Primary School (Hoi Wang Road) Parent
-        Teacher Association. All Rights Reserved
+        版權所有 &copy; 2023 油蔴地天主教小學(海泓道)家長教師會
       </Typography>
     </Box>
   )

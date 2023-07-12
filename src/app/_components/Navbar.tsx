@@ -60,18 +60,18 @@ const navItems: NavItemContainer[] = [
     href: "/helpers",
     children: [],
   },
-  {
-    key: "/products",
-    label: "產品",
-    href: "/products",
-    children: [],
-  },
-  {
-    key: "/voices",
-    label: "心聲",
-    href: "/voices",
-    children: [],
-  },
+  // {
+  //   key: "/products",
+  //   label: "產品",
+  //   href: "/products",
+  //   children: [],
+  // },
+  // {
+  //   key: "/voices",
+  //   label: "心聲",
+  //   href: "/voices",
+  //   children: [],
+  // },
 ]
 
 function NavbarDrawer({ navItems }: { navItems: NavItemContainer[] }) {
@@ -102,10 +102,13 @@ function NavbarDrawer({ navItems }: { navItems: NavItemContainer[] }) {
         <Toolbar variant="dense">
           <IconButton
             onClick={handleDrawerOpen}
-            sx={{ ...(open && { display: "none" }) }}
+            // sx={{ ...(open && { display: "none" }) }}
           >
             <MenuIcon />
           </IconButton>
+          <Typography variant="h4" align="center" sx={{ flexGrow: 1 }}>
+            油蔴地天主教小學(海泓道)家長教師會
+          </Typography>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -156,6 +159,7 @@ function NavbarDrawer({ navItems }: { navItems: NavItemContainer[] }) {
                     in={expand === navItem.key}
                     timeout="auto"
                     unmountOnExit
+                    key={`collapse-${navItem.key}`}
                   >
                     <List dense disablePadding>
                       {navItem.children.map((item) => (
@@ -184,7 +188,7 @@ export function Navbar() {
   return (
     <>
       <NavbarDrawer navItems={navItems} />
-      <Stack
+      {/* <Stack
         direction="row"
         spacing={2}
         divider={<Divider orientation="vertical" flexItem />}
@@ -210,7 +214,7 @@ export function Navbar() {
         <Link href="/news/inside">
           <Typography variant="button">inside</Typography>
         </Link>
-      </Stack>
+      </Stack> */}
     </>
   )
 }
