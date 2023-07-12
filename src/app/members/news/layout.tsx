@@ -13,6 +13,7 @@ export default function PageLayout({
           color="secondary.contrastText"
           bgcolor="secondary.main"
           paddingX={1}
+          align="center"
         >
           最新消息
         </Typography>
