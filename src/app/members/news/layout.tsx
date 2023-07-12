@@ -6,7 +6,7 @@ export default function PageLayout({
   children: React.ReactNode
 }) {
   return (
-    <>
+    <Box>
       <header>
         <Typography
           variant="h5"
@@ -19,8 +19,8 @@ export default function PageLayout({
         </Typography>
       </header>
       <section>
-        <Box sx={{ padding: 1 }}>{children}</Box>
+        <Box sx={{ paddingX: 0 }}>{children}</Box>
       </section>
-    </>
+    </Box>
   )
 }

@@ -23,7 +23,7 @@ export default function RootLayout({
           {/* <header>
             <Header />
           </header> */}
-          <Paper sx={{ backgroundColor: "lightblue" }} elevation={0}>
+          <Box sx={{ backgroundColor: "lightblue" }}>
             <nav>
               <Navbar />
             </nav>
@@ -33,7 +33,7 @@ export default function RootLayout({
             <footer>
               <Footer />
             </footer>
-          </Paper>
+          </Box>
         </Providers>
       </body>
     </html>
