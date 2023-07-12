@@ -1,3 +1,5 @@
+import { Box, Typography } from "@mui/material"
+
 export default function PageLayout({
   children,
 }: {
@@ -5,7 +7,19 @@ export default function PageLayout({
 }) {
   return (
     <>
-      <section>{children}</section>
+      <header>
+        <Typography
+          variant="h5"
+          color="secondary.contrastText"
+          bgcolor="secondary.main"
+          paddingX={1}
+        >
+          最新消息
+        </Typography>
+      </header>
+      <section>
+        <Box sx={{ padding: 1 }}>{children}</Box>
+      </section>
     </>
   )
 }

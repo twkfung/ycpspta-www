@@ -1,6 +1,7 @@
 import { fontsSans } from "./fonts"
 import { Metadata } from "next"
 import { Providers, Header, Footer, Navbar } from "./_components"
+import { Box, Paper } from "@mui/material"
 
 const fontFamily = fontsSans.map((font) => font.style.fontFamily).join(",")
 
@@ -17,18 +18,22 @@ export default function RootLayout({
 }) {
   return (
     <html lang="zh">
-      <body style={{ fontFamily: fontFamily }}>
+      <body style={{ fontFamily: fontFamily, backgroundColor: "lightblue" }}>
         <Providers>
           {/* <header>
             <Header />
           </header> */}
-          <nav>
-            <Navbar />
-          </nav>
-          <section>{children}</section>
-          <footer>
-            <Footer />
-          </footer>
+          <Paper sx={{ backgroundColor: "lightblue" }} elevation={0}>
+            <nav>
+              <Navbar />
+            </nav>
+            <section>
+              <Box sx={{ backgroundColor: "white", margin: 1 }}>{children}</Box>
+            </section>
+            <footer>
+              <Footer />
+            </footer>
+          </Paper>
         </Providers>
       </body>
     </html>
