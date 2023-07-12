@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import React, { useState } from "react"
 import Link from "next/link"
 import {
   AppBar,
@@ -130,8 +130,8 @@ function NavbarDrawer({ navItems }: { navItems: NavItemContainer[] }) {
           <Divider />
           <List dense>
             {navItems.map((navItem) => (
-              <>
-                <ListItem key={navItem.key} disablePadding>
+              <React.Fragment key={navItem.key}>
+                <ListItem disablePadding>
                   <ListItemButton
                     key={navItem.key}
                     onClick={
@@ -175,7 +175,7 @@ function NavbarDrawer({ navItems }: { navItems: NavItemContainer[] }) {
                     </List>
                   </Collapse>
                 )}
-              </>
+              </React.Fragment>
             ))}
           </List>
         </>
