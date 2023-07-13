@@ -20,7 +20,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="zh">
-      <body style={{ fontFamily: fontFamily, backgroundColor: "lightblue" }}>
+      <body style={{ fontFamily: fontFamily, backgroundColor: "white" }}>
         <Providers>
           {/* <header>
             <Header />
