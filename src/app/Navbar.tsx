@@ -24,7 +24,8 @@ import {
   ExpandLess,
   ExpandMore,
 } from "@mui/icons-material"
-import { useRouter } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
+import { logger } from "@/lib/pino"
 
 type NavItem = {
   key: string
@@ -37,27 +38,27 @@ type NavItemContainer = NavItem & {
 
 const navItems: NavItemContainer[] = [
   {
-    key: "/members",
+    key: "/members/",
     label: "會員通訊",
-    href: "/members",
+    href: "/members/",
     children: [
       {
-        key: "/members/news",
+        key: "/members/news/",
         label: "最新消息",
-        href: "/members/news",
+        href: "/members/news/",
       },
     ],
   },
   {
-    key: "/pta",
+    key: "/pta/",
     label: "家教會",
-    href: "/pta",
+    href: "/pta/",
     children: [],
   },
   {
-    key: "/helpers",
+    key: "/helpers/",
     label: "義工地帶",
-    href: "/helpers",
+    href: "/helpers/",
     children: [],
   },
   // {
@@ -95,6 +96,8 @@ function NavbarDrawer({ navItems }: { navItems: NavItemContainer[] }) {
     router.push(href)
     setOpen(false)
   }
+  const pathname = usePathname()
+  logger.info(pathname, "pathname")
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -131,7 +134,15 @@ function NavbarDrawer({ navItems }: { navItems: NavItemContainer[] }) {
           <List dense>
             {navItems.map((navItem) => (
               <React.Fragment key={navItem.key}>
-                <ListItem disablePadding>
+                <ListItem
+                  disablePadding
+                  sx={{
+                    backgroundColor:
+                      navItem.href === pathname
+                        ? theme.palette.primary.main
+                        : undefined,
+                  }}
+                >
                   <ListItemButton
                     key={navItem.key}
                     onClick={
@@ -163,7 +174,16 @@ function NavbarDrawer({ navItems }: { navItems: NavItemContainer[] }) {
                   >
                     <List dense disablePadding>
                       {navItem.children.map((item) => (
-                        <ListItem key={item.key} disablePadding>
+                        <ListItem
+                          key={item.key}
+                          disablePadding
+                          sx={{
+                            backgroundColor:
+                              item.href === pathname
+                                ? theme.palette.primary.main
+                                : undefined,
+                          }}
+                        >
                           <ListItemButton
                             sx={{ pl: 4 }}
                             onClick={handleLinkRoute(item.href)}
