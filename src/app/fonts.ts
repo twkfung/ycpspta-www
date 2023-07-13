@@ -23,7 +23,10 @@ const fontChiSansHK = Noto_Sans_HK({ weight: ["400", "700"], preload: false })
 // const fontChiSansSC = Noto_Sans_SC({ weight: "400", preload: false })
 // const fontChiSerifHK = Noto_Serif_HK({ weight: "400", preload: false })
 const fontSansSymbol = Noto_Sans_Symbols({ subsets: ["latin"] })
-const fontSansSymbol2 = Noto_Sans_Symbols({ weight: "400", subsets: ["latin"] })
+const fontSansSymbol2 = Noto_Sans_Symbols_2({
+  weight: "400",
+  subsets: ["latin"],
+})
 
 export const fontsSans = [
   fontEngSans,
