@@ -153,10 +153,9 @@ function NavbarDrawer({ navItems }: { navItems: NavItemContainer[] }) {
                 <ListItem
                   disablePadding
                   sx={{
-                    backgroundColor:
-                      navItem.href === pathname
-                        ? theme.palette.primary.main
-                        : undefined,
+                    backgroundColor: pathname.endsWith(navItem.href)
+                      ? theme.palette.primary.main
+                      : undefined,
                   }}
                 >
                   <ListItemButton
@@ -194,10 +193,9 @@ function NavbarDrawer({ navItems }: { navItems: NavItemContainer[] }) {
                           key={item.key}
                           disablePadding
                           sx={{
-                            backgroundColor:
-                              item.href === pathname
-                                ? theme.palette.primary.main
-                                : undefined,
+                            backgroundColor: pathname.endsWith(item.href)
+                              ? theme.palette.primary.main
+                              : undefined,
                           }}
                         >
                           <ListItemButton
