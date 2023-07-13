@@ -1,6 +1,8 @@
 import { fontsSans } from "./fonts"
 import { Metadata } from "next"
-import { Providers, Header, Footer, Navbar } from "./_components"
+import { Providers } from "./Providers"
+import { Footer } from "./Footer"
+import { Navbar } from "./Navbar"
 import { Box, Paper } from "@mui/material"
 
 const fontFamily = fontsSans.map((font) => font.style.fontFamily).join(",")

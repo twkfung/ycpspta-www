@@ -5,7 +5,7 @@ import { wp } from "@/lib/wpapi"
 import dayjs from "@/lib/dayjs"
 import { useState, useEffect } from "react"
 import { Paper, Typography, Box, Stack, Divider } from "@mui/material"
-import Markdown from "@/app/_components/Markdown"
+import Markdown from "@/lib/shared/components/Markdown"
 
 type WpPostJson = {
   id: number
