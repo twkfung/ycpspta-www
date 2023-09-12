@@ -29,15 +29,15 @@
   },
   "devDependencies": {
     "@total-typescript/ts-reset": "^0.4.2",
-    "@types/node": "^20.4.2",
-    "@types/react": "^18.2.14",
+    "@types/node": "^20.6.0",
+    "@types/react": "^18.2.21",
     "@types/react-dom": "^18.2.7",
     "@types/wpapi": "^1.1.1",
-    "eslint": "^8.44.0",
-    "eslint-config-next": "^13.4.9",
-    "eslint-config-prettier": "^8.8.0",
-    "prettier": "^3.0.0",
-    "typescript": "^5.1.6"
+    "eslint": "^8.49.0",
+    "eslint-config-next": "^13.4.19",
+    "eslint-config-prettier": "^8.10.0",
+    "prettier": "^3.0.3",
+    "typescript": "^5.2.2"
   },
   "prettier": {
     "singleQuote": false,
