@@ -1,37 +1,11 @@
 "use client"
 
 import { logger } from "@/lib/pino"
-import { wp } from "@/lib/wpapi"
+import { wp, type WpPost, type WpPostJson } from "@/lib/wpapi"
 import dayjs from "@/lib/dayjs"
 import { useState, useEffect } from "react"
 import { Paper, Typography, Box, Stack, Divider } from "@mui/material"
 import { Markdown } from "@/lib/shared/components"
-
-type WpPostJson = {
-  id: number
-  date: string
-  guid: {
-    rendered: string
-  }
-  title: {
-    rendered: string
-  }
-  content: {
-    rendered: string
-  }
-  excerpt: {
-    rendered: string
-  }
-}
-
-type WpPost = {
-  postId: number
-  date: dayjs.Dayjs
-  guid: string
-  title: string
-  content: string
-  excerpt: string
-}
 
 export default function Page() {
   const [error, setError] = useState(null)
