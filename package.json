@@ -24,7 +24,7 @@
     "react-dom": "^18.2.0",
     "react-markdown": "^8.0.7",
     "rehype-raw": "^7.0.0",
-    "remark-gfm": "^3.0.1",
+    "remark-gfm": "^4.0.0",
     "wpapi": "^1.2.2"
   },
   "devDependencies": {
