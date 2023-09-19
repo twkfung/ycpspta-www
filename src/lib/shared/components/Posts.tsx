@@ -18,7 +18,7 @@ type Props = {
   tagSlug: WpEnv.wpTagSlugs
 }
 
-export default function Posts({ categorySlug, tagSlug }: Props) {
+export function Posts({ categorySlug, tagSlug }: Props) {
   const [error, setError] = useState<unknown>(null)
   const [loading, setLoading] = useState(true)
   const [posts, setPosts] = useState<WpPost[]>([])

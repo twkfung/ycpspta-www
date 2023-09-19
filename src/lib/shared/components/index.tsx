@@ -1,4 +1,5 @@
-import Markdown from "./Markdown"
-
+export { DefaultMainLayout } from "./DefaultMainLayout"
+export { TitledLayout } from "./TitledLayout"
 export { Header } from "./Header"
-export { Markdown }
+export { Markdown } from "./Markdown"
+export { Posts } from "./Posts"
