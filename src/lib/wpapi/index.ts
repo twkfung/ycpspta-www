@@ -122,7 +122,7 @@ class WpClient {
       .orderby("date")
       .order("desc") // accepts "asc" or "desc"
       .get()
-    logger.info(posts, "posts fetched")
+    logger.info(`fetched ${posts.length} posts`)
     const wpPosts = this.mapWpPosts(posts)
     return wpPosts
   }
