@@ -6,6 +6,7 @@
     "node": "^18.16.0",
     "npm": "^9.5.1"
   },
+  "type":"module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
