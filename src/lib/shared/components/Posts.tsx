@@ -11,10 +11,11 @@ import {
   CircularProgress,
 } from "@mui/material"
 import { Markdown } from "@/lib/shared/components"
+import { WpEnv } from "@/lib/wpapi/WpEnv"
 
 type Props = {
-  categorySlug: string
-  tagSlug: string
+  categorySlug: WpEnv.wpCategorySlugs
+  tagSlug: WpEnv.wpTagSlugs
 }
 
 export default function Posts({ categorySlug, tagSlug }: Props) {
