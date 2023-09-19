@@ -30,3 +30,17 @@ export type WpPost = {
   content: string
   excerpt: string
 }
+
+export const wpPostFromJson = (post: WpPostJson): WpPost => {
+  return {
+    postId: post.id,
+    date: dayjs(post.date),
+    guid: post.guid.rendered,
+    title: post.title.rendered,
+    content: post.content.rendered,
+    excerpt: post.excerpt.rendered,
+  }
+}
+
+export const mapWpPosts = (posts: WpPostJson[]): WpPost[] =>
+  posts.map((json) => wpPostFromJson(json))
