@@ -112,10 +112,11 @@ class WpClient {
     }
     const posts = await this.wp
       .posts()
-      .param("status", "publish")
-      .param("categories", catId)
-      .param("tags", tagId)
-      .param("after", WpEnv.djsAnniversarySince.toISOString())
+      .status("publish")
+      // .param("status", "publish")
+      .categories(catId)
+      .tags(tagId)
+      .after(WpEnv.djsAnniversarySince.toISOString())
       .get()
     logger.info(posts, "posts fetched")
     const wpPosts = this.mapWpPosts(posts)
