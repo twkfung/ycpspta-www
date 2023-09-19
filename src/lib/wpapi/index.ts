@@ -110,7 +110,7 @@ class WpClient {
         { categorySlug, catId, tagSlug, tagId },
         "undefined category or tag",
       )
-      return []
+      throw new Error("undefined category or tag")
     }
     const posts = await this.wp
       .posts()
