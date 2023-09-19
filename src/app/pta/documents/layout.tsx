@@ -1,26 +1,8 @@
-import { Box, Typography } from "@mui/material"
+import { TitledLayout } from "@/lib/shared/components"
 
-export default function PageLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
-  return (
-    <Box>
-      <header>
-        <Typography
-          variant="h5"
-          color="secondary.contrastText"
-          bgcolor="secondary.main"
-          paddingX={1}
-          align="center"
-        >
-          文件
-        </Typography>
-      </header>
-      <section>
-        <Box sx={{ paddingX: 0 }}>{children}</Box>
-      </section>
-    </Box>
-  )
+const props = {
+  title: "文件",
 }
+
+const PageLayout = TitledLayout(props)
+export default PageLayout

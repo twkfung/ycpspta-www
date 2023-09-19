@@ -1,4 +1,5 @@
 export { DefaultMainLayout } from "./DefaultMainLayout"
+export { TitledLayout } from "./TitledLayout"
 export { Header } from "./Header"
 export { Markdown } from "./Markdown"
 export { Posts } from "./Posts"
