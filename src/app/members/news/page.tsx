@@ -1,4 +1,4 @@
-import Posts from "@/lib/shared/components/Posts"
+import { Posts } from "@/lib/shared/components"
 import { WpEnv } from "@/lib/wpapi/WpEnv"
 
 export default function Page() {

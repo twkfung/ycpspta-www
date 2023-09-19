@@ -1,4 +1,3 @@
-import Markdown from "./Markdown"
-
 export { Header } from "./Header"
-export { Markdown }
+export { Markdown } from "./Markdown"
+export { Posts } from "./Posts"
