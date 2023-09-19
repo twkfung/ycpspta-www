@@ -6,7 +6,7 @@ export default function Page() {
     <main>
       <Posts
         categorySlug={WpEnv.wpCategorySlugs.categoryMembersNews}
-        tagSlug={WpEnv.wpTagSlugs.tag2224}
+        tagSlug={WpEnv.wpTagSlugs.tag2022To2024}
       />
     </main>
   )

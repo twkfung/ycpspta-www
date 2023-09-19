@@ -5,7 +5,7 @@ export module WpEnv {
 
   export const djsAnniversarySince = dayjs(anniversarySince)
   export enum wpTagSlugs {
-    tag2224 = "22-24",
+    tag2022To2024 = "2022-2024",
   }
   export enum wpCategorySlugs {
     categoryMembersNews = "members-news",
