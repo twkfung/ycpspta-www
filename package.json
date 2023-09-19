@@ -6,6 +6,7 @@
     "node": "^18.16.0",
     "npm": "^9.5.1"
   },
+  "type":"module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -15,11 +16,11 @@
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
-    "@mui/icons-material": "^5.14.0",
-    "@mui/material": "^5.14.0",
+    "@mui/icons-material": "^5.14.9",
+    "@mui/material": "^5.14.10",
     "dayjs": "^1.11.9",
-    "next": "^13.4.9",
-    "pino": "^8.14.1",
+    "next": "^13.4.19",
+    "pino": "^8.15.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-markdown": "^8.0.7",
@@ -28,16 +29,16 @@
     "wpapi": "^1.2.2"
   },
   "devDependencies": {
-    "@total-typescript/ts-reset": "^0.4.2",
-    "@types/node": "^20.4.2",
-    "@types/react": "^18.2.14",
+    "@total-typescript/ts-reset": "^0.5.1",
+    "@types/node": "^18.17.17",
+    "@types/react": "^18.2.21",
     "@types/react-dom": "^18.2.7",
     "@types/wpapi": "^1.1.1",
-    "eslint": "^8.44.0",
-    "eslint-config-next": "^13.4.9",
-    "eslint-config-prettier": "^8.8.0",
-    "prettier": "^3.0.0",
-    "typescript": "^5.1.6"
+    "eslint": "^8.49.0",
+    "eslint-config-next": "^13.4.19",
+    "eslint-config-prettier": "^9.0.0",
+    "prettier": "^3.0.3",
+    "typescript": "^5.2.2"
   },
   "prettier": {
     "singleQuote": false,
