@@ -119,6 +119,8 @@ class WpClient {
       .categories(catId)
       .tags(tagId)
       .after(WpEnv.djsAnniversarySince.toISOString())
+      .orderby("date")
+      .order("desc") // accepts "asc" or "desc"
       .get()
     logger.info(posts, "posts fetched")
     const wpPosts = this.mapWpPosts(posts)
