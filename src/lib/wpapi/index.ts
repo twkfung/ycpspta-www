@@ -40,6 +40,7 @@ class WpClient {
       this.categoriesLoaded = true
     } catch (error) {
       logger.error(error, "Error loading categories")
+      throw error
     }
   }
   private async loadTags() {
@@ -51,6 +52,7 @@ class WpClient {
       this.tagsLoaded = true
     } catch (error) {
       logger.error(error, "Error loading tags")
+      throw error
     }
   }
 
