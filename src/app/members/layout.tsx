@@ -1,11 +1,1 @@
-export default function PageLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
-  return (
-    <>
-      <main>{children}</main>
-    </>
-  )
-}
+export { DefaultMainLayout as default } from "@/lib/shared/components"
