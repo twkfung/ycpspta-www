@@ -1,7 +1,7 @@
 import { TitledLayout } from "@/lib/shared/components"
 
 const props = {
-  title: "主席的話",
+  title: "我們心聲",
 }
 
 const PageLayout = TitledLayout(props)

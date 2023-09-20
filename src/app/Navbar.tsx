@@ -56,13 +56,13 @@ const navItems: NavItemContainer[] = [
     children: [
       {
         key: "/pta/words/",
-        label: "主席的話",
+        label: "我們心聲",
         href: "/pta/words/",
       },
       {
-        key: "/pta/committee/",
+        key: "/pta/exco/",
         label: "委員名單",
-        href: "/pta/committee/",
+        href: "/pta/exco/",
       },
       {
         key: "/pta/documents/",

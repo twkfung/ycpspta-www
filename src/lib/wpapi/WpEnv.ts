@@ -10,5 +10,6 @@ export module WpEnv {
   export enum wpCategorySlugs {
     categoryMembersNews = "members-news",
     categoryPtaWords = "pta-words",
+    categoryPtaExco = "pta-exco",
   }
 }
