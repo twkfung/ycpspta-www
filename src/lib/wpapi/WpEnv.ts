@@ -11,5 +11,7 @@ export module WpEnv {
     categoryMembersNews = "members-news",
     categoryPtaWords = "pta-words",
     categoryPtaExco = "pta-exco",
+    categoryPtaDocs = "pta-docs",
+    categoryHelpersRecruit = "helpers-recruit",
   }
 }

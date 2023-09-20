@@ -75,7 +75,13 @@ const navItems: NavItemContainer[] = [
     key: "/helpers/",
     label: "義工地帶",
     href: "/helpers/",
-    children: [],
+    children: [
+      {
+        key: "/helpers/recruit/",
+        label: "義工招募",
+        href: "/helpers/recruit/",
+      },
+    ],
   },
   // {
   //   key: "/products",
