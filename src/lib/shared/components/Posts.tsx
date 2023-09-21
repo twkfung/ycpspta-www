@@ -86,6 +86,15 @@ export function Posts({ categorySlug, tagSlug }: Props) {
     )
   }
 
+  if (posts.length == 0)
+    return (
+      <section>
+        <CenteredBox>
+          <Typography>Information not found</Typography>
+        </CenteredBox>
+      </section>
+    )
+
   return (
     <section>
       <Stack divider={<Divider flexItem />}>
