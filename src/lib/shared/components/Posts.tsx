@@ -9,26 +9,16 @@ import {
   Stack,
   Divider,
   CircularProgress,
-  Box,
   Button,
 } from "@mui/material"
-import { styled } from "@mui/material/styles"
 import { Markdown } from "@/lib/shared/components"
 import { WpEnv } from "@/lib/wpapi/WpEnv"
+import { CenteredBox } from "./CenteredBox"
 
 type Props = {
   categorySlug: WpEnv.CATEGORY_SLUGS
   tagSlug: WpEnv.TAG_SLUGS
 }
-
-const CenteredBox = styled(Box)({
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-  justifyContent: "center",
-  height: "100vh",
-  maxHeight: "400px",
-})
 
 export function Posts({ categorySlug, tagSlug }: Props) {
   const [error, setError] = useState<unknown>(null)
