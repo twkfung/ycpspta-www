@@ -65,9 +65,9 @@ const navItems: NavItemContainer[] = [
         href: "/pta/exco/",
       },
       {
-        key: "/pta/documents/",
+        key: "/pta/docs/",
         label: "文件",
-        href: "/pta/documents/",
+        href: "/pta/docs/",
       },
     ],
   },
@@ -83,18 +83,6 @@ const navItems: NavItemContainer[] = [
       },
     ],
   },
-  // {
-  //   key: "/products",
-  //   label: "產品",
-  //   href: "/products",
-  //   children: [],
-  // },
-  // {
-  //   key: "/voices",
-  //   label: "心聲",
-  //   href: "/voices",
-  //   children: [],
-  // },
 ]
 
 function NavbarDrawer({ navItems }: { navItems: NavItemContainer[] }) {
