@@ -5,6 +5,7 @@ export module WpEnv {
 
   export const djsAnniversarySince = dayjs(anniversarySince)
   export enum TAG_SLUGS {
+    PTA_ALL_TIME = "pta-all-time",
     PTA_2022_TO_2024 = "pta-2022-2024",
   }
   export enum CATEGORY_SLUGS {
