@@ -47,6 +47,16 @@ const navItems: NavItemContainer[] = [
         label: "最新消息",
         href: "/members/news/",
       },
+      {
+        key: "/members/notices/",
+        label: "通告",
+        href: "/members/notices/",
+      },
+      {
+        key: "/members/newsletters/",
+        label: "會訊",
+        href: "/members/newsletters/",
+      },
     ],
   },
   {
