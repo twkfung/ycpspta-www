@@ -17,8 +17,8 @@ import { Markdown } from "@/lib/shared/components"
 import { WpEnv } from "@/lib/wpapi/WpEnv"
 
 type Props = {
-  categorySlug: WpEnv.wpCategorySlugs
-  tagSlug: WpEnv.wpTagSlugs
+  categorySlug: WpEnv.CATEGORY_SLUGS
+  tagSlug: WpEnv.TAG_SLUGS
 }
 
 const CenteredBox = styled(Box)({
