@@ -1,5 +1,7 @@
 "use client"
 
+import "@/styles/wp_block-library_style.css"
+
 import { logger } from "@/lib/pino"
 import { type WpPost, wpClient } from "@/lib/wpapi"
 import { useState, useEffect, useCallback } from "react"
