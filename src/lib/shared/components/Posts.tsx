@@ -80,7 +80,7 @@ export function Posts({ categorySlug, tagSlug }: Props) {
     return (
       <section>
         <CenteredBox>
-          <Typography>Information not found</Typography>
+          <Typography>Coming soon. Stay tuned.</Typography>
         </CenteredBox>
       </section>
     )

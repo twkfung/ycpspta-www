@@ -17,7 +17,7 @@ export module WpEnv {
     HELPERS_RECRUIT = "helpers-recruit",
     HELPERS_HANDBOOK = "helpers-handbook",
     HELPERS_TIPS = "helpers-tips",
-    ACTIVITIES_CALENDAR = "activities-calendar",
-    ACTIVITIES_ALBUMS = "activities-albums",
+    EVENTS_CALENDAR = "events-calendar",
+    EVENTS_ALBUMS = "events-albums",
   }
 }

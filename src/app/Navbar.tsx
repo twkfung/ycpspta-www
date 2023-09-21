@@ -93,6 +93,23 @@ const navItems: NavItemContainer[] = [
       },
     ],
   },
+  {
+    key: "/events/",
+    label: "活動",
+    href: "/events/",
+    children: [
+      {
+        key: "/events/calendar/",
+        label: "年度活動",
+        href: "/events/calendar/",
+      },
+      {
+        key: "/events/albums/",
+        label: "影集",
+        href: "/events/albums/",
+      },
+    ],
+  },
 ]
 
 function NavbarDrawer({ navItems }: { navItems: NavItemContainer[] }) {
