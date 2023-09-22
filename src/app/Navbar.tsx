@@ -1,7 +1,6 @@
 "use client"
 
 import React, { useState } from "react"
-import Link from "next/link"
 import {
   AppBar,
   Box,
@@ -13,7 +12,6 @@ import {
   ListItem,
   ListItemButton,
   ListItemText,
-  Stack,
   Toolbar,
   Typography,
   useTheme,
@@ -26,6 +24,8 @@ import {
 } from "@mui/icons-material"
 import { usePathname, useRouter } from "next/navigation"
 import { logger } from "@/lib/pino"
+import Image from "next/image"
+import LogoImage from "./YCPSPTA_logo.png"
 
 type NavItem = {
   key: string
@@ -150,10 +150,14 @@ function NavbarDrawer({ navItems }: { navItems: NavItemContainer[] }) {
     <Box sx={{ display: "flex" }}>
       <AppBar position="sticky">
         <Toolbar variant="dense">
-          <IconButton
-            onClick={handleDrawerOpen}
-            // sx={{ ...(open && { display: "none" }) }}
-          >
+          <Image
+            src={LogoImage}
+            width={36}
+            height={36}
+            alt="YCPS PTA logo"
+            style={{ backgroundColor: "white", borderRadius: "4px" }}
+          />
+          <IconButton onClick={handleDrawerOpen}>
             <MenuIcon />
           </IconButton>
           <Typography variant="h4" align="center" sx={{ flexGrow: 1 }}>
@@ -253,33 +257,6 @@ export function Navbar() {
   return (
     <>
       <NavbarDrawer navItems={navItems} />
-      {/* <Stack
-        direction="row"
-        spacing={2}
-        divider={<Divider orientation="vertical" flexItem />}
-      >
-        <Link href="#">
-          <Typography variant="button">會員資訊</Typography>
-        </Link>
-        <Link href="#">
-          <Typography variant="button">家教會</Typography>
-        </Link>
-        <Link href="#">
-          <Typography variant="button">義工地帶</Typography>
-        </Link>
-        <Link href="#">
-          <Typography variant="button">產品</Typography>
-        </Link>
-        <Link href="#">
-          <Typography variant="button">心聲</Typography>
-        </Link>
-        <Link href="/news">
-          <Typography variant="button">最新消息</Typography>
-        </Link>
-        <Link href="/news/inside">
-          <Typography variant="button">inside</Typography>
-        </Link>
-      </Stack> */}
     </>
   )
 }
