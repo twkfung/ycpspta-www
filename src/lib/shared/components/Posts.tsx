@@ -20,9 +20,12 @@ import { CenteredBox } from "./CenteredBox"
 type Props = {
   categorySlug: WpEnv.CATEGORY_SLUGS
   tagSlug: WpEnv.TAG_SLUGS
+  showDate?: boolean
+  // maxPosts?: number
+  // collapseAfter?: number
 }
 
-export function Posts({ categorySlug, tagSlug }: Props) {
+export function Posts({ categorySlug, tagSlug, showDate = false }: Props) {
   const [error, setError] = useState<unknown>(null)
   const [loading, setLoading] = useState(true)
   const [posts, setPosts] = useState<WpPost[]>([])
@@ -99,7 +102,9 @@ export function Posts({ categorySlug, tagSlug }: Props) {
           >
             <Stack>
               <Typography variant="h6">{post.title}</Typography>
-              <Typography variant="caption">{post.date.fromNow()}</Typography>
+              {showDate && (
+                <Typography variant="caption">{post.date.fromNow()}</Typography>
+              )}
             </Stack>
             <Markdown>{post.content}</Markdown>
           </Paper>
