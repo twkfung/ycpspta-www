@@ -114,13 +114,13 @@ class WpClient {
     }
     const posts = await this.wp
       .posts()
-      .status("publish")
-      // .param("status", "publish")
+      .perPage(100)
+      .orderby("date")
+      .order("desc") // accepts "asc" or "desc"
       .categories(catId)
       .tags(tagId)
       .after(WpEnv.djsAnniversarySince.toISOString())
-      .orderby("date")
-      .order("desc") // accepts "asc" or "desc"
+      .status("publish")
       .get()
     logger.info(`fetched ${posts.length} posts`)
     const wpPosts = this.mapWpPosts(posts)
