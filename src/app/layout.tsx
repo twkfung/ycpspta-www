@@ -3,7 +3,7 @@ import { Metadata } from "next"
 import { Providers } from "./Providers"
 import { Footer } from "./Footer"
 import { Navbar } from "./Navbar"
-import { Box, Paper } from "@mui/material"
+import { Box } from "@mui/material"
 
 const fontFamily = fontsSans.map((font) => font.style.fontFamily).join(",")
 
@@ -25,12 +25,32 @@ export default function RootLayout({
           {/* <header>
             <Header />
           </header> */}
-          <Box sx={{ backgroundColor: "lightblue" }}>
+          <Box
+            sx={{
+              backgroundColor: "lightblue",
+            }}
+          >
             <nav>
               <Navbar />
             </nav>
-            <section>
-              <Box sx={{ backgroundColor: "white", margin: 1 }}>{children}</Box>
+            <section
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                // justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Box
+                sx={{
+                  backgroundColor: "white",
+                  margin: 1,
+                  width: "100%",
+                  maxWidth: "800px",
+                }}
+              >
+                {children}
+              </Box>
             </section>
             <footer>
               <Footer />
