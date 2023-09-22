@@ -5,7 +5,7 @@ export default function Page() {
   return (
     <main>
       <Posts
-        categorySlug={WpEnv.CATEGORY_SLUGS.MEMBERS_NEWS}
+        categorySlug={WpEnv.CATEGORY_SLUGS.HELPERS_RECRUIT}
         tagSlug={WpEnv.TAG_SLUGS.PTA_2022_TO_2024}
       />
     </main>

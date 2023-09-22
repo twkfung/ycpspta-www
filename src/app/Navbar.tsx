@@ -47,6 +47,16 @@ const navItems: NavItemContainer[] = [
         label: "最新消息",
         href: "/members/news/",
       },
+      {
+        key: "/members/notices/",
+        label: "通告",
+        href: "/members/notices/",
+      },
+      {
+        key: "/members/newsletters/",
+        label: "會訊",
+        href: "/members/newsletters/",
+      },
     ],
   },
   {
@@ -56,39 +66,60 @@ const navItems: NavItemContainer[] = [
     children: [
       {
         key: "/pta/words/",
-        label: "主席的話",
+        label: "我們心聲",
         href: "/pta/words/",
       },
       {
-        key: "/pta/committee/",
+        key: "/pta/exco/",
         label: "委員名單",
-        href: "/pta/committee/",
+        href: "/pta/exco/",
       },
       {
-        key: "/pta/documents/",
+        key: "/pta/docs/",
         label: "文件",
-        href: "/pta/documents/",
+        href: "/pta/docs/",
       },
     ],
   },
   {
     key: "/helpers/",
-    label: "義工地帶",
+    label: "家長義工地帶",
     href: "/helpers/",
-    children: [],
+    children: [
+      {
+        key: "/helpers/recruit/",
+        label: "義工招募",
+        href: "/helpers/recruit/",
+      },
+      {
+        key: "/helpers/handbook/",
+        label: "義工手冊",
+        href: "/helpers/handbook/",
+      },
+      {
+        key: "/helpers/tips/",
+        label: "小錦囊",
+        href: "/helpers/tips/",
+      },
+    ],
   },
-  // {
-  //   key: "/products",
-  //   label: "產品",
-  //   href: "/products",
-  //   children: [],
-  // },
-  // {
-  //   key: "/voices",
-  //   label: "心聲",
-  //   href: "/voices",
-  //   children: [],
-  // },
+  {
+    key: "/events/",
+    label: "活動",
+    href: "/events/",
+    children: [
+      {
+        key: "/events/calendar/",
+        label: "年度活動",
+        href: "/events/calendar/",
+      },
+      {
+        key: "/events/albums/",
+        label: "影集",
+        href: "/events/albums/",
+      },
+    ],
+  },
 ]
 
 function NavbarDrawer({ navItems }: { navItems: NavItemContainer[] }) {
