@@ -4,7 +4,7 @@ import "@/styles/wp_block-library_style.css"
 
 import { logger } from "@/lib/pino"
 import { type WpPost, wpClient } from "@/lib/wpapi"
-import { useState, useEffect, useCallback } from "react"
+import { useEffect, useCallback, useReducer } from "react"
 import {
   Paper,
   Typography,
@@ -25,23 +25,63 @@ type Props = {
   // collapseAfter?: number
 }
 
+type State = {
+  error: unknown
+  loading: boolean
+  posts: WpPost[]
+}
+type Action =
+  | {
+      type: "ERROR_CAUGHT"
+      payload: unknown
+    }
+  | {
+      type: "POSTS_FETCHED"
+      payload: WpPost[]
+    }
+  | {
+      type: "LOADING_COMPLETED"
+    }
+  | {
+      type: "RELOAD_REQUESTED"
+    }
+
+const initialState: State = {
+  error: null,
+  loading: true,
+  posts: [],
+}
+
+const reducer = (state: State, action: Action): State => {
+  switch (action.type) {
+    case "ERROR_CAUGHT":
+      return { ...state, error: action.payload, posts: [] }
+    case "POSTS_FETCHED":
+      return { ...state, posts: action.payload, loading: false }
+    case "LOADING_COMPLETED":
+      return { ...state, loading: false }
+    case "RELOAD_REQUESTED":
+      return { ...state, ...initialState }
+    default:
+      return state
+  }
+}
+
 export function Posts({ categorySlug, tagSlug, showDate = false }: Props) {
-  const [error, setError] = useState<unknown>(null)
-  const [loading, setLoading] = useState(true)
-  const [posts, setPosts] = useState<WpPost[]>([])
+  const [state, dispatch] = useReducer(reducer, initialState)
+  const { error, loading, posts } = state
   const fetchData = useCallback(async () => {
     try {
       const wpPosts = await wpClient.loadPublishedPosts({
         categorySlug,
         tagSlug,
       })
-      setPosts(wpPosts)
+      dispatch({ type: "POSTS_FETCHED", payload: wpPosts })
     } catch (err) {
       logger.error(err, "error fetching posts")
-      setError(err)
-      setPosts([])
+      dispatch({ type: "ERROR_CAUGHT", payload: err })
     } finally {
-      setLoading(false)
+      dispatch({ type: "LOADING_COMPLETED" })
     }
   }, [categorySlug, tagSlug])
 
@@ -50,9 +90,7 @@ export function Posts({ categorySlug, tagSlug, showDate = false }: Props) {
   }, [fetchData])
 
   const handleReload = async () => {
-    setError(null)
-    setLoading(true)
-    setPosts([])
+    dispatch({ type: "RELOAD_REQUESTED" })
     await fetchData()
   }
 
@@ -81,7 +119,7 @@ export function Posts({ categorySlug, tagSlug, showDate = false }: Props) {
     )
   }
 
-  if (posts.length == 0)
+  if (posts.length === 0)
     return (
       <section>
         <CenteredBox>
