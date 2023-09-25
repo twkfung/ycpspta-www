@@ -4,7 +4,7 @@ import "@/styles/wp_block-library_style.css"
 
 import { logger } from "@/lib/pino"
 import { type WpPost, wpClient } from "@/lib/wpapi"
-import { useEffect, useCallback, useReducer } from "react"
+import { useEffect, useCallback, useReducer, useState } from "react"
 import {
   Paper,
   Typography,
@@ -13,6 +13,7 @@ import {
   CircularProgress,
   Button,
 } from "@mui/material"
+import { ExpandLess, ExpandMore } from "@mui/icons-material"
 import { Markdown } from "@/lib/shared/components"
 import { WpEnv } from "@/lib/wpapi/WpEnv"
 import { CenteredBox } from "./CenteredBox"
@@ -22,7 +23,7 @@ type Props = {
   tagSlug: WpEnv.TAG_SLUGS
   showDate?: boolean
   maxPosts?: number
-  // collapseAfter?: number
+  collapseAfter?: number
 }
 
 type State = {
@@ -71,7 +72,8 @@ export function Posts({
   categorySlug,
   tagSlug,
   showDate = false,
-  maxPosts,
+  maxPosts = 100,
+  collapseAfter = 5,
 }: Props) {
   const [state, dispatch] = useReducer(reducer, initialState)
   const { error, loading, posts } = state
@@ -137,23 +139,48 @@ export function Posts({
   return (
     <section>
       <Stack divider={<Divider flexItem />}>
-        {posts.map((post: WpPost) => (
-          <Paper
-            component={"article"}
+        {posts.map((post: WpPost, index) => (
+          <CollapsiblePost
             key={post.guid}
-            sx={{ padding: 1 }}
-            elevation={4}
-          >
-            <Stack>
-              <Typography variant="h6">{post.title}</Typography>
-              {showDate && (
-                <Typography variant="caption">{post.date.fromNow()}</Typography>
-              )}
-            </Stack>
-            <Markdown>{post.content}</Markdown>
-          </Paper>
+            showDate={showDate}
+            post={post}
+            defaultCollapsed={
+              collapseAfter === undefined || collapseAfter < 0
+                ? false
+                : index >= collapseAfter
+            }
+          />
         ))}
       </Stack>
     </section>
+  )
+}
+
+function CollapsiblePost({
+  post,
+  showDate,
+  defaultCollapsed = true,
+}: {
+  post: WpPost
+  showDate?: boolean
+  defaultCollapsed?: boolean
+}) {
+  const [collapsed, setCollapse] = useState(!!defaultCollapsed)
+  const handleCollapseToggle = () => {
+    setCollapse((prev) => !prev)
+  }
+  return (
+    <Paper component={"article"} sx={{ padding: 1 }} elevation={4}>
+      <Stack onClick={handleCollapseToggle}>
+        <Stack direction={"row"}>
+          {collapsed ? <ExpandMore /> : <ExpandLess />}
+          <Typography variant="h6">{post.title}</Typography>
+        </Stack>
+        {showDate && (
+          <Typography variant="caption">{post.date.fromNow()}</Typography>
+        )}
+      </Stack>
+      {!collapsed && <Markdown>{post.content}</Markdown>}
+    </Paper>
   )
 }
