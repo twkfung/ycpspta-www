@@ -97,9 +97,11 @@ class WpClient {
   public async loadPublishedPosts({
     categorySlug,
     tagSlug,
+    maxPosts = 100,
   }: {
     categorySlug: string
     tagSlug: string
+    maxPosts?: number
   }): Promise<WpPost[]> {
     const [catId, tagId] = await Promise.all([
       this.getCategoryId(categorySlug),
@@ -114,7 +116,7 @@ class WpClient {
     }
     const posts = await this.wp
       .posts()
-      .perPage(100)
+      .perPage(maxPosts) // wp accepts max 100
       .orderby("date")
       .order("desc") // accepts "asc" or "desc"
       .categories(catId)

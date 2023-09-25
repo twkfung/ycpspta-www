@@ -21,7 +21,7 @@ type Props = {
   categorySlug: WpEnv.CATEGORY_SLUGS
   tagSlug: WpEnv.TAG_SLUGS
   showDate?: boolean
-  // maxPosts?: number
+  maxPosts?: number
   // collapseAfter?: number
 }
 
@@ -67,7 +67,12 @@ const reducer = (state: State, action: Action): State => {
   }
 }
 
-export function Posts({ categorySlug, tagSlug, showDate = false }: Props) {
+export function Posts({
+  categorySlug,
+  tagSlug,
+  showDate = false,
+  maxPosts,
+}: Props) {
   const [state, dispatch] = useReducer(reducer, initialState)
   const { error, loading, posts } = state
   const fetchData = useCallback(async () => {
@@ -75,6 +80,7 @@ export function Posts({ categorySlug, tagSlug, showDate = false }: Props) {
       const wpPosts = await wpClient.loadPublishedPosts({
         categorySlug,
         tagSlug,
+        maxPosts,
       })
       dispatch({ type: "POSTS_FETCHED", payload: wpPosts })
     } catch (err) {
@@ -83,7 +89,7 @@ export function Posts({ categorySlug, tagSlug, showDate = false }: Props) {
     } finally {
       dispatch({ type: "LOADING_COMPLETED" })
     }
-  }, [categorySlug, tagSlug])
+  }, [categorySlug, tagSlug, maxPosts])
 
   useEffect(() => {
     fetchData()
