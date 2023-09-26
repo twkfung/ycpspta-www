@@ -3,7 +3,9 @@
 import React, { useState } from "react"
 import {
   AppBar,
+  Avatar,
   Box,
+  Button,
   Collapse,
   Divider,
   Drawer,
@@ -26,6 +28,7 @@ import { usePathname, useRouter } from "next/navigation"
 import { logger } from "@/lib/pino"
 import Image from "next/image"
 import LogoImage from "./YCPSPTA_logo.png"
+import Link from "next/link"
 
 type NavItem = {
   key: string
@@ -166,13 +169,22 @@ function NavbarDrawer({ navItems }: { navItems: NavItemContainer[] }) {
           <Typography variant="h4" align="center" sx={{ flexGrow: 1 }}>
             油蔴地天主教小學(海泓道)家長教師會
           </Typography>
-          <Image
+          <Avatar
+            variant="rounded"
+            sx={{
+              bgcolor: theme.palette.primary.dark,
+            }}
+            onClick={handleLinkRoute("/")}
+          >
+            家
+          </Avatar>
+          {/* <Image
             src={LogoImage}
             width={36}
             height={36}
             alt="YCPS PTA logo"
             style={{ backgroundColor: "white", borderRadius: "4px" }}
-          />
+          /> */}
         </Toolbar>
       </AppBar>
       <Drawer
