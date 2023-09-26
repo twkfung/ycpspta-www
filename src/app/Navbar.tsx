@@ -5,7 +5,6 @@ import {
   AppBar,
   Avatar,
   Box,
-  Button,
   Collapse,
   Divider,
   Drawer,
@@ -26,9 +25,7 @@ import {
 } from "@mui/icons-material"
 import { usePathname, useRouter } from "next/navigation"
 import { logger } from "@/lib/pino"
-import Image from "next/image"
-import LogoImage from "./YCPSPTA_logo.png"
-import Link from "next/link"
+import { AppEnv } from "./appEnv"
 
 type NavItem = {
   key: string
@@ -178,17 +175,10 @@ function NavbarDrawer({ navItems }: { navItems: NavItemContainer[] }) {
           >
             家
           </Avatar>
-          {/* <Image
-            src={LogoImage}
-            width={36}
-            height={36}
-            alt="YCPS PTA logo"
-            style={{ backgroundColor: "white", borderRadius: "4px" }}
-          /> */}
         </Toolbar>
       </AppBar>
       <Drawer
-        sx={{ flexShrink: 0 }}
+        sx={{ flexShrink: 0, display: "flex" }}
         variant="persistent"
         anchor="left"
         open={open}
@@ -199,77 +189,82 @@ function NavbarDrawer({ navItems }: { navItems: NavItemContainer[] }) {
           },
         }}
       >
-        <>
-          <IconButton onClick={handleDrawerClose}>
-            <ChevronLeft />
-          </IconButton>
-          <Divider />
-          <List dense>
-            {navItems.map((navItem) => (
-              <React.Fragment key={navItem.key}>
-                <ListItem
-                  disablePadding
-                  sx={{
-                    backgroundColor: pathname.endsWith(navItem.href)
-                      ? theme.palette.primary.main
-                      : undefined,
-                  }}
+        <IconButton onClick={handleDrawerClose}>
+          <ChevronLeft />
+        </IconButton>
+        <Divider />
+        <List dense>
+          {navItems.map((navItem) => (
+            <React.Fragment key={navItem.key}>
+              <ListItem
+                disablePadding
+                sx={{
+                  backgroundColor: pathname.endsWith(navItem.href)
+                    ? theme.palette.primary.main
+                    : undefined,
+                }}
+              >
+                <ListItemButton
+                  key={navItem.key}
+                  onClick={
+                    navItem.children.length > 0
+                      ? expand === navItem.key
+                        ? handleMenuCollapse
+                        : handleMenuExpand(navItem.key)
+                      : handleLinkRoute(navItem.href)
+                  }
                 >
-                  <ListItemButton
-                    key={navItem.key}
-                    onClick={
-                      navItem.children.length > 0
-                        ? expand === navItem.key
-                          ? handleMenuCollapse
-                          : handleMenuExpand(navItem.key)
-                        : handleLinkRoute(navItem.href)
-                    }
-                  >
-                    <ListItemText primary={navItem.label} />
-                    {navItem.children.length === 0 ? (
-                      false
-                    ) : expand === navItem.key ? (
-                      <ExpandLess />
-                    ) : (
-                      <ExpandMore />
-                    )}
-                  </ListItemButton>
-                </ListItem>
-                {navItem.children.length === 0 ? (
-                  false
-                ) : (
-                  <Collapse
-                    in={expand === navItem.key}
-                    timeout="auto"
-                    unmountOnExit
-                    key={`collapse-${navItem.key}`}
-                  >
-                    <List dense disablePadding>
-                      {navItem.children.map((item) => (
-                        <ListItem
-                          key={item.key}
-                          disablePadding
-                          sx={{
-                            backgroundColor: pathname.endsWith(item.href)
-                              ? theme.palette.primary.main
-                              : undefined,
-                          }}
+                  <ListItemText primary={navItem.label} />
+                  {navItem.children.length === 0 ? (
+                    false
+                  ) : expand === navItem.key ? (
+                    <ExpandLess />
+                  ) : (
+                    <ExpandMore />
+                  )}
+                </ListItemButton>
+              </ListItem>
+              {navItem.children.length === 0 ? (
+                false
+              ) : (
+                <Collapse
+                  in={expand === navItem.key}
+                  timeout="auto"
+                  unmountOnExit
+                  key={`collapse-${navItem.key}`}
+                >
+                  <List dense disablePadding>
+                    {navItem.children.map((item) => (
+                      <ListItem
+                        key={item.key}
+                        disablePadding
+                        sx={{
+                          backgroundColor: pathname.endsWith(item.href)
+                            ? theme.palette.primary.main
+                            : undefined,
+                        }}
+                      >
+                        <ListItemButton
+                          sx={{ pl: 4 }}
+                          onClick={handleLinkRoute(item.href)}
                         >
-                          <ListItemButton
-                            sx={{ pl: 4 }}
-                            onClick={handleLinkRoute(item.href)}
-                          >
-                            <ListItemText primary={item.label}></ListItemText>
-                          </ListItemButton>
-                        </ListItem>
-                      ))}
-                    </List>
-                  </Collapse>
-                )}
-              </React.Fragment>
-            ))}
-          </List>
-        </>
+                          <ListItemText primary={item.label}></ListItemText>
+                        </ListItemButton>
+                      </ListItem>
+                    ))}
+                  </List>
+                </Collapse>
+              )}
+            </React.Fragment>
+          ))}
+        </List>
+        <Box sx={{ flexGrow: 1 }} />
+        <List dense>
+          <Divider />
+          <ListItem>
+            <ListItemText>網站版本: {AppEnv.version}</ListItemText>
+          </ListItem>
+        </List>
       </Drawer>
     </Box>
   )
