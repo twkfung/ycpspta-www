@@ -13,18 +13,14 @@ import {
   CircularProgress,
   Button,
 } from "@mui/material"
-import { ExpandLess, ExpandMore } from "@mui/icons-material"
+import {
+  ExpandLess as IconExpandLess,
+  ExpandMore as IconExpandMore,
+  PushPinTwoTone as IconPinned,
+} from "@mui/icons-material"
 import { Markdown } from "@/lib/shared/components"
 import { WpEnv } from "@/lib/wpapi/WpEnv"
 import { CenteredBox } from "./CenteredBox"
-
-type Props = {
-  categorySlug: WpEnv.CATEGORY_SLUGS
-  tagSlug: WpEnv.TAG_SLUGS
-  showDate?: boolean
-  maxPosts?: number
-  collapseAfter?: number
-}
 
 type State = {
   error: unknown
@@ -68,12 +64,22 @@ const reducer = (state: State, action: Action): State => {
   }
 }
 
+type Props = {
+  categorySlug: WpEnv.CATEGORY_SLUGS
+  tagSlug: WpEnv.TAG_SLUGS
+  showDate?: boolean
+  maxPosts?: number
+  collapseAfter?: number
+  stickyFirst?: boolean
+}
+
 export function Posts({
   categorySlug,
   tagSlug,
   showDate = false,
   maxPosts = 100,
   collapseAfter = 5,
+  stickyFirst,
 }: Props) {
   const [state, dispatch] = useReducer(reducer, initialState)
   const { error, loading, posts } = state
@@ -83,6 +89,7 @@ export function Posts({
         categorySlug,
         tagSlug,
         maxPosts,
+        stickyFirst: stickyFirst,
       })
       dispatch({ type: "POSTS_FETCHED", payload: wpPosts })
     } catch (err) {
@@ -175,8 +182,9 @@ function CollapsiblePost({
     <Paper component={"article"} sx={{ padding: 1 }} elevation={4}>
       <Stack onClick={handleCollapseToggle}>
         <Stack direction={"row"}>
-          {collapsed ? <ExpandMore /> : <ExpandLess />}
+          {collapsed ? <IconExpandMore /> : <IconExpandLess />}
           <Typography variant="h6">{post.title}</Typography>
+          {post.sticky && <IconPinned fontSize="small" />}
         </Stack>
         {showDate && (
           <Typography variant="caption">{post.date.fromNow()}</Typography>
