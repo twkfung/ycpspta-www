@@ -97,9 +97,13 @@ class WpClient {
   public async loadPublishedPosts({
     categorySlug,
     tagSlug,
+    maxPosts = 100,
+    stickyFirst = true,
   }: {
     categorySlug: string
     tagSlug: string
+    maxPosts?: number
+    stickyFirst?: boolean
   }): Promise<WpPost[]> {
     const [catId, tagId] = await Promise.all([
       this.getCategoryId(categorySlug),
@@ -114,7 +118,7 @@ class WpClient {
     }
     const posts = await this.wp
       .posts()
-      .perPage(100)
+      .perPage(maxPosts) // wp accepts max 100
       .orderby("date")
       .order("desc") // accepts "asc" or "desc"
       .categories(catId)
@@ -124,6 +128,11 @@ class WpClient {
       .get()
     logger.info(`fetched ${posts.length} posts`)
     const wpPosts = this.mapWpPosts(posts)
+    if (stickyFirst) {
+      const stickyPosts = wpPosts.filter((post) => post.sticky)
+      const nonStickyPosts = wpPosts.filter((post) => !post.sticky)
+      return [...stickyPosts, ...nonStickyPosts]
+    }
     return wpPosts
   }
 
@@ -153,6 +162,7 @@ export type WpPostJson = {
   excerpt: {
     rendered: string
   }
+  sticky: boolean
 }
 
 export type WpPost = {
@@ -162,6 +172,7 @@ export type WpPost = {
   title: string
   content: string
   excerpt: string
+  sticky: boolean
 }
 
 export const wpPostFromJson = (post: WpPostJson): WpPost => {
@@ -172,5 +183,6 @@ export const wpPostFromJson = (post: WpPostJson): WpPost => {
     title: post.title.rendered,
     content: post.content.rendered,
     excerpt: post.excerpt.rendered,
+    sticky: post.sticky,
   }
 }

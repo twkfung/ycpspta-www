@@ -57,6 +57,11 @@ const navItems: NavItemContainer[] = [
         label: "會訊",
         href: "/members/newsletters/",
       },
+      {
+        key: "/members/welfare/",
+        label: "福利",
+        href: "/members/welfare/",
+      },
     ],
   },
   {
@@ -79,6 +84,11 @@ const navItems: NavItemContainer[] = [
         label: "文件",
         href: "/pta/docs/",
       },
+      {
+        key: "/pta/contact/",
+        label: "聯絡",
+        href: "/pta/contact/",
+      },
     ],
   },
   {
@@ -97,9 +107,9 @@ const navItems: NavItemContainer[] = [
         href: "/helpers/handbook/",
       },
       {
-        key: "/helpers/tips/",
-        label: "小錦囊",
-        href: "/helpers/tips/",
+        key: "/helpers/code/",
+        label: "守則",
+        href: "/helpers/code/",
       },
     ],
   },
@@ -150,6 +160,12 @@ function NavbarDrawer({ navItems }: { navItems: NavItemContainer[] }) {
     <Box sx={{ display: "flex" }}>
       <AppBar position="sticky">
         <Toolbar variant="dense">
+          <IconButton onClick={handleDrawerOpen}>
+            <MenuIcon />
+          </IconButton>
+          <Typography variant="h4" align="center" sx={{ flexGrow: 1 }}>
+            油蔴地天主教小學(海泓道)家長教師會
+          </Typography>
           <Image
             src={LogoImage}
             width={36}
@@ -157,12 +173,6 @@ function NavbarDrawer({ navItems }: { navItems: NavItemContainer[] }) {
             alt="YCPS PTA logo"
             style={{ backgroundColor: "white", borderRadius: "4px" }}
           />
-          <IconButton onClick={handleDrawerOpen}>
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h4" align="center" sx={{ flexGrow: 1 }}>
-            油蔴地天主教小學(海泓道)家長教師會
-          </Typography>
         </Toolbar>
       </AppBar>
       <Drawer
