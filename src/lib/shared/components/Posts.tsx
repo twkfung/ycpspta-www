@@ -62,7 +62,7 @@ const reducer = (state: State, action: Action): State => {
     case "LOADING_COMPLETED":
       return { ...state, loading: false }
     case "RELOAD_REQUESTED":
-      return { ...state, ...initialState }
+      return { ...state, error: null, loading: true, posts: [] }
     default:
       return state
   }
@@ -156,19 +156,21 @@ export function Posts({
   )
 }
 
+type CollapsiblePostProps = {
+  post: WpPost
+  showDate?: boolean
+  defaultCollapsed?: boolean
+}
+
 function CollapsiblePost({
   post,
   showDate,
   defaultCollapsed = true,
-}: {
-  post: WpPost
-  showDate?: boolean
-  defaultCollapsed?: boolean
-}) {
+}: CollapsiblePostProps) {
   const [collapsed, setCollapse] = useState(!!defaultCollapsed)
-  const handleCollapseToggle = () => {
+  const handleCollapseToggle = useCallback(() => {
     setCollapse((prev) => !prev)
-  }
+  }, [])
   return (
     <Paper component={"article"} sx={{ padding: 1 }} elevation={4}>
       <Stack onClick={handleCollapseToggle}>
