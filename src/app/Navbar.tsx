@@ -97,9 +97,9 @@ const navItems: NavItemContainer[] = [
         href: "/helpers/handbook/",
       },
       {
-        key: "/helpers/tips/",
-        label: "小錦囊",
-        href: "/helpers/tips/",
+        key: "/helpers/code/",
+        label: "守則",
+        href: "/helpers/code/",
       },
     ],
   },

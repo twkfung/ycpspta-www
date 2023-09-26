@@ -17,7 +17,7 @@ export module WpEnv {
     PTA_DOCS = "pta-docs",
     HELPERS_RECRUIT = "helpers-recruit",
     HELPERS_HANDBOOK = "helpers-handbook",
-    HELPERS_TIPS = "helpers-tips",
+    HELPERS_CODE = "helpers-code",
     EVENTS_CALENDAR = "events-calendar",
     EVENTS_ALBUMS = "events-albums",
   }
