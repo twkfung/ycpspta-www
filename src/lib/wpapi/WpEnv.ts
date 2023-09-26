@@ -16,6 +16,7 @@ export module WpEnv {
     PTA_WORDS = "pta-words",
     PTA_EXCO = "pta-exco",
     PTA_DOCS = "pta-docs",
+    PTA_CONTACT = "pta-contact",
     HELPERS_RECRUIT = "helpers-recruit",
     HELPERS_HANDBOOK = "helpers-handbook",
     HELPERS_CODE = "helpers-code",

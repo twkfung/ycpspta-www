@@ -84,6 +84,11 @@ const navItems: NavItemContainer[] = [
         label: "文件",
         href: "/pta/docs/",
       },
+      {
+        key: "/pta/contact/",
+        label: "聯絡",
+        href: "/pta/contact/",
+      },
     ],
   },
   {
