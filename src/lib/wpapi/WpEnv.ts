@@ -12,6 +12,7 @@ export module WpEnv {
     MEMBERS_NEWS = "members-news",
     MEMBERS_NOTICES = "members-notices",
     MEMBERS_NEWSLETTERS = "members-newsletters",
+    MEMBERS_WELFARE = "members-welfare",
     PTA_WORDS = "pta-words",
     PTA_EXCO = "pta-exco",
     PTA_DOCS = "pta-docs",

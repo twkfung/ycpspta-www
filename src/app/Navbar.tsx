@@ -57,6 +57,11 @@ const navItems: NavItemContainer[] = [
         label: "會訊",
         href: "/members/newsletters/",
       },
+      {
+        key: "/members/welfare/",
+        label: "福利",
+        href: "/members/welfare/",
+      },
     ],
   },
   {
