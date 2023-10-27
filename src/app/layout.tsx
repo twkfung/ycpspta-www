@@ -1,5 +1,5 @@
 import { fontsSans } from "./fonts"
-import { Metadata } from "next"
+import { Metadata, Viewport } from "next"
 import { Providers } from "./Providers"
 import { Footer } from "./Footer"
 import { Navbar } from "./Navbar"
@@ -10,7 +10,12 @@ const fontFamily = fontsSans.map((font) => font.style.fontFamily).join(",")
 export const metadata: Metadata = {
   title: "油蔴地天主教小學(海泓道)家長教師會",
   description: "Built using next app",
-  viewport: { width: "device-width", initialScale: 1 },
+  // viewport: { width: "device-width", initialScale: 1 },
+}
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
 }
 
 export default function RootLayout({
