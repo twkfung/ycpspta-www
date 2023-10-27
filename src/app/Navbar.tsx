@@ -18,10 +18,10 @@ import {
   useTheme,
 } from "@mui/material"
 import {
-  Menu as MenuIcon,
-  ChevronLeft,
-  ExpandLess,
-  ExpandMore,
+  Menu as IconMenu,
+  ChevronLeft as IconChevronLeft,
+  ExpandLess as IconExpandLess,
+  ExpandMore as IconExpandMore,
 } from "@mui/icons-material"
 import { usePathname, useRouter } from "next/navigation"
 import { logger } from "@/lib/pino"
@@ -161,7 +161,7 @@ function NavbarDrawer({ navItems }: { navItems: NavItemContainer[] }) {
       <AppBar position="sticky">
         <Toolbar variant="dense">
           <IconButton onClick={handleDrawerOpen}>
-            <MenuIcon />
+            <IconMenu />
           </IconButton>
           <Typography variant="h4" align="center" sx={{ flexGrow: 1 }}>
             油蔴地天主教小學(海泓道)家長教師會
@@ -190,7 +190,7 @@ function NavbarDrawer({ navItems }: { navItems: NavItemContainer[] }) {
         }}
       >
         <IconButton onClick={handleDrawerClose}>
-          <ChevronLeft />
+          <IconChevronLeft />
         </IconButton>
         <Divider />
         <List dense>
@@ -218,9 +218,9 @@ function NavbarDrawer({ navItems }: { navItems: NavItemContainer[] }) {
                   {navItem.children.length === 0 ? (
                     false
                   ) : expand === navItem.key ? (
-                    <ExpandLess />
+                    <IconExpandLess />
                   ) : (
-                    <ExpandMore />
+                    <IconExpandMore />
                   )}
                 </ListItemButton>
               </ListItem>

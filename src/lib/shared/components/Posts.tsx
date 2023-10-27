@@ -98,7 +98,7 @@ export function Posts({
     } finally {
       dispatch({ type: "LOADING_COMPLETED" })
     }
-  }, [categorySlug, tagSlug, maxPosts])
+  }, [categorySlug, tagSlug, maxPosts, stickyFirst])
 
   useEffect(() => {
     fetchData()
