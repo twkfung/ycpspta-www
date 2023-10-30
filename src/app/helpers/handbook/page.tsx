@@ -6,7 +6,7 @@ export default function Page() {
     <main>
       <Posts
         categorySlug={WpEnv.CATEGORY_SLUGS.HELPERS_HANDBOOK}
-        tagSlug={WpEnv.TAG_SLUGS.PTA_2022_TO_2024}
+        tagSlug={WpEnv.TAG_SLUGS.PTA_ALL_TIME}
       />
     </main>
   )
