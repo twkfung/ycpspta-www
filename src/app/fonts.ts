@@ -36,7 +36,7 @@ export const fontsSans = [
   // fontChiSansSC,
   fontSansSymbol,
   fontSansSymbol2,
-  fontFallbackSans,
+  // fontFallbackSans,
 ]
 
-export const fontsMono = [fontEngMono, fontFallbackMono]
+export const fontsMono = [fontEngMono /* , fontFallbackMono */]
