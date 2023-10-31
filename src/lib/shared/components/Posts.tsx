@@ -77,7 +77,7 @@ export function Posts({
   categorySlug,
   tagSlug,
   showDate = false,
-  maxPosts = 100,
+  maxPosts = WpEnv.ITEMS_PER_PAGE,
   collapseAfter = 5,
   stickyFirst,
 }: Props) {

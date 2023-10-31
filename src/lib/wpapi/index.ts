@@ -33,7 +33,9 @@ class WpClient {
   }
   private async loadCategories() {
     try {
-      const categories = await this.wp.categories()
+      const categories = await this.wp
+        .categories()
+        .perPage(WpEnv.ITEMS_PER_PAGE)
       categories.forEach((category: WpCategory) => {
         this.categoryIdMap.set(category.slug, category)
       })
@@ -45,7 +47,7 @@ class WpClient {
   }
   private async loadTags() {
     try {
-      const tags = await this.wp.tags()
+      const tags = await this.wp.tags().perPage(WpEnv.ITEMS_PER_PAGE)
       tags.forEach((tag: WpTag) => {
         this.tagIdMap.set(tag.slug, tag)
       })
@@ -97,7 +99,7 @@ class WpClient {
   public async loadPublishedPosts({
     categorySlug,
     tagSlug,
-    maxPosts = 100,
+    maxPosts = WpEnv.ITEMS_PER_PAGE,
     stickyFirst = true,
   }: {
     categorySlug: string
