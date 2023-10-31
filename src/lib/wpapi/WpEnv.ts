@@ -1,6 +1,8 @@
 import dayjs from "@/lib/dayjs"
 
 export module WpEnv {
+  export const ITEMS_PER_PAGE = 100
+
   const anniversarySince = "2022-09-01"
 
   export const djsAnniversarySince = dayjs(anniversarySince)
