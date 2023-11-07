@@ -3,8 +3,8 @@
 import "@/styles/wp_block-library_style.css"
 
 import { logger } from "@/lib/pino"
-import { type WpPost, wpClient } from "@/lib/wpapi"
-import { useEffect, useCallback, useReducer, useState } from "react"
+import { type WpPost } from "@/lib/wpapi"
+import { useCallback, useState } from "react"
 import {
   Paper,
   Typography,
@@ -21,48 +21,7 @@ import {
 import { Markdown } from "@/lib/shared/components"
 import { WpEnv } from "@/lib/wpapi/WpEnv"
 import { CenteredBox } from "./CenteredBox"
-
-type State = {
-  error: unknown
-  loading: boolean
-  posts: WpPost[]
-}
-type Action =
-  | {
-      type: "ERROR_CAUGHT"
-      payload: unknown
-    }
-  | {
-      type: "POSTS_FETCHED"
-      payload: WpPost[]
-    }
-  | {
-      type: "LOADING_COMPLETED"
-    }
-  | {
-      type: "RELOAD_REQUESTED"
-    }
-
-const initialState: State = {
-  error: null,
-  loading: true,
-  posts: [],
-}
-
-const reducer = (state: State, action: Action): State => {
-  switch (action.type) {
-    case "ERROR_CAUGHT":
-      return { ...state, error: action.payload, posts: [] }
-    case "POSTS_FETCHED":
-      return { ...state, posts: action.payload, loading: false }
-    case "LOADING_COMPLETED":
-      return { ...state, loading: false }
-    case "RELOAD_REQUESTED":
-      return { ...state, error: null, loading: true, posts: [] }
-    default:
-      return state
-  }
-}
+import { usePosts } from "@/lib/react-query/hooks"
 
 type Props = {
   categorySlug: WpEnv.CATEGORY_SLUGS
@@ -81,35 +40,19 @@ export function Posts({
   collapseAfter = 5,
   stickyFirst,
 }: Props) {
-  const [state, dispatch] = useReducer(reducer, initialState)
-  const { error, loading, posts } = state
-  const fetchData = useCallback(async () => {
-    try {
-      const wpPosts = await wpClient.loadPublishedPosts({
-        categorySlug,
-        tagSlug,
-        maxPosts,
-        stickyFirst: stickyFirst,
-      })
-      dispatch({ type: "POSTS_FETCHED", payload: wpPosts })
-    } catch (err) {
-      logger.error(err, "error fetching posts")
-      dispatch({ type: "ERROR_CAUGHT", payload: err })
-    } finally {
-      dispatch({ type: "LOADING_COMPLETED" })
-    }
-  }, [categorySlug, tagSlug, maxPosts, stickyFirst])
-
-  useEffect(() => {
-    fetchData()
-  }, [fetchData])
+  const { isPending, isError, data, error, refetch } = usePosts({
+    categorySlug,
+    tagSlug,
+    filterSticky: !!stickyFirst,
+    maxPosts,
+  })
 
   const handleReload = async () => {
-    dispatch({ type: "RELOAD_REQUESTED" })
-    await fetchData()
+    refetch()
   }
 
-  if (error) {
+  if (isError) {
+    logger.error(error, "error fetching posts")
     return (
       <section>
         <CenteredBox>
@@ -124,7 +67,7 @@ export function Posts({
     )
   }
 
-  if (loading) {
+  if (isPending) {
     return (
       <section>
         <CenteredBox>
@@ -134,7 +77,8 @@ export function Posts({
     )
   }
 
-  if (posts.length === 0)
+  const { stickyPosts, posts } = data
+  if (stickyPosts.length === 0 && posts.length === 0)
     return (
       <section>
         <CenteredBox>
@@ -145,6 +89,16 @@ export function Posts({
 
   return (
     <section>
+      <Stack divider={<Divider flexItem />}>
+        {stickyPosts.map((post: WpPost, _index) => (
+          <CollapsiblePost
+            key={post.guid}
+            showDate={showDate}
+            post={post}
+            defaultCollapsed={false}
+          />
+        ))}
+      </Stack>
       <Stack divider={<Divider flexItem />}>
         {posts.map((post: WpPost, index) => (
           <CollapsiblePost
