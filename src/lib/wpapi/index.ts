@@ -96,17 +96,7 @@ class WpClient {
     return lookup.id
   }
 
-  public async loadPublishedPosts({
-    categorySlug,
-    tagSlug,
-    maxPosts = WpEnv.ITEMS_PER_PAGE,
-    stickyFirst = true,
-  }: {
-    categorySlug: string
-    tagSlug: string
-    maxPosts?: number
-    stickyFirst?: boolean
-  }): Promise<WpPost[]> {
+  private async getTaxonomyIds(categorySlug: string, tagSlug: string) {
     const [catId, tagId] = await Promise.all([
       this.getCategoryId(categorySlug),
       this.getTagId(tagSlug),
@@ -118,24 +108,119 @@ class WpClient {
       )
       throw new Error("undefined category or tag")
     }
-    const posts = await this.wp
-      .posts()
-      .perPage(maxPosts) // wp accepts max 100
-      .orderby("date")
-      .order("desc") // accepts "asc" or "desc"
-      .categories(catId)
-      .tags(tagId)
-      .after(WpEnv.djsAnniversarySince.toISOString())
-      .status("publish")
-      .get()
-    logger.info(`fetched ${posts.length} posts`)
-    const wpPosts = this.mapWpPosts(posts)
-    if (stickyFirst) {
-      const stickyPosts = wpPosts.filter((post) => post.sticky)
-      const nonStickyPosts = wpPosts.filter((post) => !post.sticky)
-      return [...stickyPosts, ...nonStickyPosts]
+    return [catId, tagId]
+  }
+
+  public async fetchStickyPosts({
+    categorySlug,
+    tagSlug,
+  }: {
+    categorySlug: string
+    tagSlug: string
+  }): Promise<WpPost[]> {
+    const [catId, tagId] = await this.getTaxonomyIds(categorySlug, tagSlug)
+    const PageSize = WpEnv.ITEMS_PER_PAGE
+    let offset = 0
+    const fetchFn = (offset: number) =>
+      this.wp
+        .posts()
+        .perPage(PageSize) // wp accepts max 100
+        .offset(offset)
+        .orderby("date")
+        .order("desc") // accepts "asc" or "desc"
+        .categories(catId)
+        .tags(tagId)
+        .after(WpEnv.djsAnniversarySince.toISOString())
+        .status("publish")
+        .sticky(true)
+        .get()
+    let postsJson = await fetchFn(offset)
+    // logger.info(`fetched ${posts.length} posts`)
+    let wpPosts = this.mapWpPosts(postsJson)
+    let posts = [...wpPosts]
+    while (wpPosts.length >= PageSize) {
+      offset += PageSize
+      postsJson = await fetchFn(offset)
+      wpPosts = this.mapWpPosts(postsJson)
+      posts = [...posts, ...wpPosts]
     }
-    return wpPosts
+    return posts
+  }
+
+  public async fetchNonStickyPosts({
+    categorySlug,
+    tagSlug,
+    maxPosts = WpEnv.ITEMS_PER_PAGE,
+  }: {
+    categorySlug: string
+    tagSlug: string
+    maxPosts?: number
+  }): Promise<WpPost[]> {
+    const [catId, tagId] = await this.getTaxonomyIds(categorySlug, tagSlug)
+    const PageSize = WpEnv.ITEMS_PER_PAGE
+    let offset = 0
+    const fetchFn = (offset: number) =>
+      this.wp
+        .posts()
+        .perPage(PageSize) // wp accepts max 100
+        .offset(offset)
+        .orderby("date")
+        .order("desc") // accepts "asc" or "desc"
+        .categories(catId)
+        .tags(tagId)
+        .after(WpEnv.djsAnniversarySince.toISOString())
+        .status("publish")
+        .sticky(false)
+        .get()
+    let postsJson = await fetchFn(offset)
+    // logger.info(`fetched ${posts.length} posts`)
+    let wpPosts = this.mapWpPosts(postsJson)
+    let posts = [...wpPosts]
+    while (maxPosts > posts.length && wpPosts.length >= PageSize) {
+      offset += PageSize
+      postsJson = await fetchFn(offset)
+      wpPosts = this.mapWpPosts(postsJson)
+      posts = [...posts, ...wpPosts]
+    }
+    return posts
+  }
+
+  public async fetchPosts({
+    categorySlug,
+    tagSlug,
+    maxPosts = WpEnv.ITEMS_PER_PAGE,
+  }: {
+    categorySlug: string
+    tagSlug: string
+    maxPosts?: number
+  }): Promise<WpPost[]> {
+    const [catId, tagId] = await this.getTaxonomyIds(categorySlug, tagSlug)
+    const PageSize = WpEnv.ITEMS_PER_PAGE
+    let offset = 0
+    const fetchFn = (offset: number) =>
+      this.wp
+        .posts()
+        .perPage(PageSize) // wp accepts max 100
+        .offset(offset)
+        .orderby("date")
+        .order("desc") // accepts "asc" or "desc"
+        .categories(catId)
+        .tags(tagId)
+        .after(WpEnv.djsAnniversarySince.toISOString())
+        .status("publish")
+        // .sticky(true)
+        .get()
+    let postsJson = await fetchFn(offset)
+    // logger.info(`fetched ${posts.length} posts`)
+    let wpPosts = this.mapWpPosts(postsJson)
+    let posts = [...wpPosts]
+    while (maxPosts > posts.length && wpPosts.length >= PageSize) {
+      offset += PageSize
+      postsJson = await fetchFn(offset)
+      wpPosts = this.mapWpPosts(postsJson)
+      posts = [...posts, ...wpPosts]
+    }
+    return posts
   }
 
   private mapWpPosts(posts: WpPostJson[]): WpPost[] {
