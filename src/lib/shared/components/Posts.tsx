@@ -154,6 +154,9 @@ function CollapsiblePost({
                 pathname: "/post/",
                 query: { postId: post.postId },
               }}
+              onClick={(event) => {
+                event.stopPropagation()
+              }}
             >
               <IconButton aria-label="open post">
                 <IconOpenLink fontSize="small" />
