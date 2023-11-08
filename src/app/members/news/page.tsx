@@ -10,6 +10,7 @@ export default function Page() {
         showDate
         stickyFirst
         showPermaLink
+        showStickiness
       />
     </main>
   )
