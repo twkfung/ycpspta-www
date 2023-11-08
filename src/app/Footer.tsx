@@ -1,8 +1,9 @@
 "use client"
 
-import { Box, Typography, useTheme } from "@mui/material"
+import { Box, IconButton, Typography, useTheme } from "@mui/material"
 import { EmailOutlined as IconContact } from "@mui/icons-material"
 import { useRouter } from "next/navigation"
+import Link from "next/link"
 
 export function Footer() {
   const theme = useTheme()
@@ -18,12 +19,11 @@ export function Footer() {
         bgcolor: theme.palette.primary.light, // lightblue
       }}
     >
-      <IconContact
-        sx={{ marginLeft: 4, fontSize: "1rem", color: "white" }}
-        onClick={() => {
-          router.push("/pta/contact/")
-        }}
-      />
+      <Link href="/pta/contact/">
+        <IconButton sx={{ marginLeft: 4, color: "white" }}>
+          <IconContact sx={{ fontSize: "1rem" }} />
+        </IconButton>
+      </Link>
       <Typography align="center" variant="caption" flexGrow={1}>
         版權所有 &copy; 2023 油蔴地天主教小學(海泓道)家長教師會
       </Typography>
