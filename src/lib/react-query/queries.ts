@@ -1,6 +1,10 @@
 import { createQueryKeys, mergeQueryKeys } from "@lukemorales/query-key-factory"
 import { wpClient } from "@/lib/wpapi"
-import { UsePostsProps } from "./hooks"
+import { UsePostProps, UsePostsProps } from "./hooks"
+
+async function fetchPost(props: UsePostProps) {
+  return await wpClient.fetchPost(props)
+}
 
 async function fetchPosts(props: UsePostsProps) {
   if (props.filterSticky) {
@@ -21,7 +25,10 @@ const qkTags = createQueryKeys("tags", {
 })
 
 const qkPosts = createQueryKeys("posts", {
-  single: null,
+  single: (props: UsePostProps) => ({
+    queryKey: [props.postId, props],
+    queryFn: (_ctx) => fetchPost(props),
+  }),
   categorized: (props: UsePostsProps) => ({
     queryKey: [props.categorySlug, props.tagSlug, props.filterSticky, props],
     queryFn: (_ctx) => fetchPosts(props),
