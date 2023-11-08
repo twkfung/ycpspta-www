@@ -14,7 +14,9 @@ const Layout = ({ children }: { children: ReactNode }) => {
   const router = useRouter()
   return (
     <Stack sx={{ display: "flex" }}>
-      <PageLayout>{children}</PageLayout>
+      <PageLayout>
+        <main>{children}</main>
+      </PageLayout>
       <Button
         sx={{ flexGrow: 1 }}
         variant="contained"

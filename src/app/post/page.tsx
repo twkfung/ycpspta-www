@@ -11,7 +11,7 @@ export default function Page() {
   const params = useSearchParams()
   const paramPostId = params.get("postId")
   const router = useRouter()
-  const isParamPostIdNull = paramPostId === null
+  const isParamPostIdNull = paramPostId === null || paramPostId === ""
   useEffect(() => {
     if (isParamPostIdNull) router.replace("/")
   }, [isParamPostIdNull, router])
@@ -26,34 +26,20 @@ export default function Page() {
     postId: postId,
   })
 
-  if (isParamPostIdNull) return <main>Undefined</main>
-  if (isNaN(postId))
+  if (isNaN(postId) || isParamPostIdNull)
     return (
-      <main>
-        <CenteredBox>
-          <Typography>Invalid post id</Typography>
-        </CenteredBox>
-      </main>
+      <CenteredBox>
+        <Typography>Invalid post id</Typography>
+      </CenteredBox>
     )
-  if (isPending)
-    return (
-      <main>
-        <CenteredBox>loading...</CenteredBox>
-      </main>
-    )
+  if (isPending) return <CenteredBox>loading...</CenteredBox>
   if (isError)
     return (
-      <main>
-        <CenteredBox>
-          <Typography variant="h5" gutterBottom color="error">
-            Post not found
-          </Typography>
-        </CenteredBox>
-      </main>
+      <CenteredBox>
+        <Typography variant="h5" gutterBottom color="error">
+          Post not found
+        </Typography>
+      </CenteredBox>
     )
-  return (
-    <main>
-      <Post post={post} collapsible={false} showDate={true} />
-    </main>
-  )
+  return <Post post={post} collapsible={false} showDate={true} />
 }
