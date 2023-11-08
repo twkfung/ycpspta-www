@@ -223,6 +223,15 @@ class WpClient {
     return posts
   }
 
+  public async fetchPost({ postId }: { postId: number }): Promise<WpPost> {
+    const fetchFn = (postId: number) =>
+      this.wp.posts().id(postId).status("publish").get()
+    let postJson = await fetchFn(postId)
+    logger.info(postJson, "postJson")
+    let wpPost = wpPostFromJson(postJson)
+    return wpPost
+  }
+
   private mapWpPosts(posts: WpPostJson[]): WpPost[] {
     return posts.map((json) => wpPostFromJson(json))
   }
