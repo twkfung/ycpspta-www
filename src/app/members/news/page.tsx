@@ -9,6 +9,7 @@ export default function Page() {
         tagSlug={WpEnv.TAG_SLUGS.PTA_2022_TO_2024}
         showDate
         stickyFirst
+        showPermaLink
       />
     </main>
   )

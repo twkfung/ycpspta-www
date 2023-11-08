@@ -12,16 +12,19 @@ import {
   Divider,
   CircularProgress,
   Button,
+  IconButton,
 } from "@mui/material"
 import {
   ExpandLess as IconExpandLess,
   ExpandMore as IconExpandMore,
   PushPinTwoTone as IconPinned,
+  OpenInNewTwoTone as IconOpenLink,
 } from "@mui/icons-material"
 import { Markdown } from "@/lib/shared/components"
 import { WpEnv } from "@/lib/wpapi/WpEnv"
 import { CenteredBox } from "./CenteredBox"
 import { usePosts } from "@/lib/react-query/hooks"
+import Link from "next/link"
 
 type Props = {
   categorySlug: WpEnv.CATEGORY_SLUGS
@@ -30,6 +33,7 @@ type Props = {
   maxPosts?: number
   collapseAfter?: number
   stickyFirst?: boolean
+  showPermaLink?: boolean
 }
 
 export function Posts({
@@ -39,6 +43,7 @@ export function Posts({
   maxPosts = WpEnv.ITEMS_PER_PAGE,
   collapseAfter = 5,
   stickyFirst,
+  showPermaLink = false,
 }: Props) {
   const { isPending, isError, data, error, refetch } = usePosts({
     categorySlug,
@@ -96,6 +101,7 @@ export function Posts({
             showDate={showDate}
             post={post}
             defaultCollapsed={false}
+            showPermaLink={showPermaLink}
           />
         ))}
       </Stack>
@@ -110,6 +116,7 @@ export function Posts({
                 ? false
                 : index >= collapseAfter
             }
+            showPermaLink={showPermaLink}
           />
         ))}
       </Stack>
@@ -121,12 +128,14 @@ type CollapsiblePostProps = {
   post: WpPost
   showDate?: boolean
   defaultCollapsed?: boolean
+  showPermaLink?: boolean
 }
 
 function CollapsiblePost({
   post,
   showDate,
   defaultCollapsed = true,
+  showPermaLink = false,
 }: CollapsiblePostProps) {
   const [collapsed, setCollapse] = useState(!!defaultCollapsed)
   const handleCollapseToggle = useCallback(() => {
@@ -139,6 +148,18 @@ function CollapsiblePost({
           {collapsed ? <IconExpandMore /> : <IconExpandLess />}
           <Typography variant="h6">{post.title}</Typography>
           {post.sticky && <IconPinned fontSize="small" />}
+          {showPermaLink && (
+            <Link
+              href={{
+                pathname: "/post/",
+                query: { postId: post.postId },
+              }}
+            >
+              <IconButton aria-label="open post">
+                <IconOpenLink fontSize="small" />
+              </IconButton>
+            </Link>
+          )}
         </Stack>
         {showDate && (
           <Typography variant="caption">{post.date.fromNow()}</Typography>
