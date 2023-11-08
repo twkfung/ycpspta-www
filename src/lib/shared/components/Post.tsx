@@ -7,6 +7,7 @@ import {
   ExpandMore as IconExpandMore,
   PushPinTwoTone as IconPinned,
   OpenInNewTwoTone as IconOpenLink,
+  AccessTimeTwoTone as IconClock,
 } from "@mui/icons-material"
 import { Markdown } from "@/lib/shared/components"
 import Link from "next/link"
@@ -67,7 +68,9 @@ export function Post({
           )}
         </Stack>
         {showDate && (
-          <Typography variant="caption">{post.date.fromNow()}</Typography>
+          <Typography variant="caption">
+            <IconClock fontSize="inherit" /> {post.date.fromNow()}
+          </Typography>
         )}
       </Stack>
       {!collapsed && <Markdown>{post.content}</Markdown>}
