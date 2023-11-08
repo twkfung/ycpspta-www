@@ -144,7 +144,7 @@ function CollapsiblePost({
   return (
     <Paper component={"article"} sx={{ padding: 1 }} elevation={4}>
       <Stack onClick={handleCollapseToggle}>
-        <Stack direction={"row"}>
+        <Stack direction={"row"} bgcolor={"lightgrey"}>
           {collapsed ? <IconExpandMore /> : <IconExpandLess />}
           <Typography variant="h6">{post.title}</Typography>
           {post.sticky && <IconPinned fontSize="small" />}

@@ -69,7 +69,7 @@ type PostProps = {
 function Post({ post, showDate = true }: PostProps) {
   return (
     <Paper component={"article"} sx={{ padding: 1 }} elevation={4}>
-      <Stack direction={"row"}>
+      <Stack direction={"row"} bgcolor={"lightgrey"}>
         <Typography variant="h6">{post.title}</Typography>
         {post.sticky && <IconPinned fontSize="small" />}
       </Stack>
