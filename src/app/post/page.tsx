@@ -2,13 +2,10 @@
 
 import { usePost } from "@/lib/react-query/hooks"
 import { CenteredBox } from "@/lib/shared/components/CenteredBox"
-import { WpPost } from "@/lib/wpapi"
-import { Paper, Stack, Typography } from "@mui/material"
+import { Typography } from "@mui/material"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useEffect } from "react"
-
-import { PushPinTwoTone as IconPinned } from "@mui/icons-material"
-import { Markdown } from "@/lib/shared/components"
+import { Post } from "@/lib/shared/components/Post"
 
 export default function Page() {
   const params = useSearchParams()
@@ -56,27 +53,7 @@ export default function Page() {
     )
   return (
     <main>
-      <Post post={post} />
+      <Post post={post} collapsible={false} showDate={true} />
     </main>
-  )
-}
-
-type PostProps = {
-  post: WpPost
-  showDate?: boolean
-}
-
-function Post({ post, showDate = true }: PostProps) {
-  return (
-    <Paper component={"article"} sx={{ padding: 1 }} elevation={4}>
-      <Stack direction={"row"} bgcolor={"lightgrey"}>
-        <Typography variant="h6">{post.title}</Typography>
-        {post.sticky && <IconPinned fontSize="small" />}
-      </Stack>
-      {showDate && (
-        <Typography variant="caption">{post.date.fromNow()}</Typography>
-      )}
-      <Markdown>{post.content}</Markdown>
-    </Paper>
   )
 }

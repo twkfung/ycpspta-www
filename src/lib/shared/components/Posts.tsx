@@ -4,27 +4,17 @@ import "@/styles/wp_block-library_style.css"
 
 import { logger } from "@/lib/pino"
 import { type WpPost } from "@/lib/wpapi"
-import { useCallback, useState } from "react"
 import {
-  Paper,
   Typography,
   Stack,
   Divider,
   CircularProgress,
   Button,
-  IconButton,
 } from "@mui/material"
-import {
-  ExpandLess as IconExpandLess,
-  ExpandMore as IconExpandMore,
-  PushPinTwoTone as IconPinned,
-  OpenInNewTwoTone as IconOpenLink,
-} from "@mui/icons-material"
-import { Markdown } from "@/lib/shared/components"
 import { WpEnv } from "@/lib/wpapi/WpEnv"
 import { CenteredBox } from "./CenteredBox"
 import { usePosts } from "@/lib/react-query/hooks"
-import Link from "next/link"
+import { Post } from "./Post"
 
 type Props = {
   categorySlug: WpEnv.CATEGORY_SLUGS
@@ -34,6 +24,7 @@ type Props = {
   collapseAfter?: number
   stickyFirst?: boolean
   showPermaLink?: boolean
+  showStickiness?: boolean
 }
 
 export function Posts({
@@ -44,6 +35,7 @@ export function Posts({
   collapseAfter = 5,
   stickyFirst,
   showPermaLink = false,
+  showStickiness = false,
 }: Props) {
   const { isPending, isError, data, error, refetch } = usePosts({
     categorySlug,
@@ -96,18 +88,19 @@ export function Posts({
     <section>
       <Stack divider={<Divider flexItem />}>
         {stickyPosts.map((post: WpPost, _index) => (
-          <CollapsiblePost
+          <Post
             key={post.guid}
             showDate={showDate}
             post={post}
             defaultCollapsed={false}
             showPermaLink={showPermaLink}
+            showStickiness={showStickiness}
           />
         ))}
       </Stack>
       <Stack divider={<Divider flexItem />}>
         {posts.map((post: WpPost, index) => (
-          <CollapsiblePost
+          <Post
             key={post.guid}
             showDate={showDate}
             post={post}
@@ -117,58 +110,10 @@ export function Posts({
                 : index >= collapseAfter
             }
             showPermaLink={showPermaLink}
+            showStickiness={showStickiness}
           />
         ))}
       </Stack>
     </section>
-  )
-}
-
-type CollapsiblePostProps = {
-  post: WpPost
-  showDate?: boolean
-  defaultCollapsed?: boolean
-  showPermaLink?: boolean
-}
-
-function CollapsiblePost({
-  post,
-  showDate,
-  defaultCollapsed = true,
-  showPermaLink = false,
-}: CollapsiblePostProps) {
-  const [collapsed, setCollapse] = useState(!!defaultCollapsed)
-  const handleCollapseToggle = useCallback(() => {
-    setCollapse((prev) => !prev)
-  }, [])
-  return (
-    <Paper component={"article"} sx={{ padding: 1 }} elevation={4}>
-      <Stack onClick={handleCollapseToggle}>
-        <Stack direction={"row"} bgcolor={"lightgrey"}>
-          {collapsed ? <IconExpandMore /> : <IconExpandLess />}
-          <Typography variant="h6">{post.title}</Typography>
-          {post.sticky && <IconPinned fontSize="small" />}
-          {showPermaLink && (
-            <Link
-              href={{
-                pathname: "/post/",
-                query: { postId: post.postId },
-              }}
-              onClick={(event) => {
-                event.stopPropagation()
-              }}
-            >
-              <IconButton aria-label="open post">
-                <IconOpenLink fontSize="small" />
-              </IconButton>
-            </Link>
-          )}
-        </Stack>
-        {showDate && (
-          <Typography variant="caption">{post.date.fromNow()}</Typography>
-        )}
-      </Stack>
-      {!collapsed && <Markdown>{post.content}</Markdown>}
-    </Paper>
   )
 }
