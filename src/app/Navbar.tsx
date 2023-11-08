@@ -26,6 +26,7 @@ import {
 import { usePathname, useRouter } from "next/navigation"
 import { logger } from "@/lib/pino"
 import { AppEnv } from "./appEnv"
+import Link from "next/link"
 
 type NavItem = {
   key: string
@@ -166,15 +167,21 @@ function NavbarDrawer({ navItems }: { navItems: NavItemContainer[] }) {
           <Typography variant="h4" align="center" sx={{ flexGrow: 1 }}>
             油蔴地天主教小學(海泓道)家長教師會
           </Typography>
-          <Avatar
-            variant="rounded"
-            sx={{
-              bgcolor: theme.palette.primary.dark,
-            }}
-            onClick={handleLinkRoute("/")}
+
+          <Link
+            href="/"
+            onClick={() => setOpen(false)}
+            style={{ textDecoration: "none" }}
           >
-            家
-          </Avatar>
+            <Avatar
+              variant="rounded"
+              sx={{
+                bgcolor: theme.palette.primary.dark,
+              }}
+            >
+              家
+            </Avatar>
+          </Link>
         </Toolbar>
       </AppBar>
       <Drawer
