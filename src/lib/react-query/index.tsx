@@ -6,6 +6,7 @@ export const queryClient = new QueryClient({
     queries: {
       retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
       retry: 3,
+      staleTime: 1000 * 60 * 10, // 10 minutes becomes stale
     },
   },
 })
