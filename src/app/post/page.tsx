@@ -1,11 +1,11 @@
 "use client"
 
 import { usePost } from "@/lib/react-query/hooks"
-import { CenteredBox } from "@/lib/shared/components/CenteredBox"
+import { CenteredBox } from "@/ui/shared/CenteredBox"
 import { Typography } from "@mui/material"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useEffect } from "react"
-import { Post } from "@/lib/shared/components/Post"
+import { Post } from "@/ui/shared/Post"
 
 export default function Page() {
   const params = useSearchParams()

@@ -1,4 +1,4 @@
-import { CenteredBox } from "@/lib/shared/components/CenteredBox"
+import { CenteredBox } from "@/ui/shared/CenteredBox"
 import { CircularProgress, Typography } from "@mui/material"
 
 export default function Loading() {

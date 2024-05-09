@@ -1,1 +1,1 @@
-export { DefaultMainLayout as default } from "@/lib/shared/components"
+export { DefaultMainLayout as default } from "@/ui/shared"

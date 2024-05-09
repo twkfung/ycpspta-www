@@ -1,4 +1,4 @@
-import { TitledLayout } from "@/lib/shared/components"
+import { TitledLayout } from "@/ui/shared"
 
 const props = {
   title: "委員名單",

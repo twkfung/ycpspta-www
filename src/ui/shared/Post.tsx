@@ -9,7 +9,7 @@ import {
   OpenInNewTwoTone as IconOpenLink,
   AccessTimeTwoTone as IconClock,
 } from "@mui/icons-material"
-import { Markdown } from "@/lib/shared/components"
+import { Markdown } from "@/ui/shared"
 import Link from "next/link"
 
 type PostProps = {
