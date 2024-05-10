@@ -1,4 +1,4 @@
-import { fontsSans } from "./fonts"
+import { fontsSans } from "@/ui/styles"
 import { Metadata, Viewport } from "next"
 import { Providers } from "./Providers"
 import { Footer } from "./Footer"
