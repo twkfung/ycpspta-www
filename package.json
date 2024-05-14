@@ -21,7 +21,7 @@
     "@mui/material-nextjs": "^5.15.11",
     "@tanstack/react-query": "^5.8.6",
     "@tanstack/react-query-devtools": "^5.8.6",
-    "dayjs": "^1.11.10",
+    "dayjs": "^1.11.11",
     "next": "14.2.1",
     "pino": "^9.1.0",
     "react": "^18.2.0",
