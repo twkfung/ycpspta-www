@@ -1,6 +1,6 @@
 "use client"
 
-import { CenteredBox } from "@/lib/shared/components/CenteredBox"
+import { CenteredBox } from "@/ui/shared/CenteredBox"
 import { CircularProgress, Typography } from "@mui/material"
 import { useRouter } from "next/navigation"
 import { useEffect } from "react"

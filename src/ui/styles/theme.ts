@@ -1,6 +1,8 @@
+"use client"
+
 import { createTheme, responsiveFontSizes } from "@mui/material/styles"
 import { lightBlue, orange } from "@mui/material/colors"
-import { fontsSans, fontsMono } from "./fonts"
+import { fontsSans, fontsMono } from "."
 import { NextFont } from "next/dist/compiled/@next/font"
 
 function createFontFamily(

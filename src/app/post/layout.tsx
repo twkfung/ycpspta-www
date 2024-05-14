@@ -1,6 +1,6 @@
 "use client"
 
-import { TitledLayout } from "@/lib/shared/components"
+import { TitledLayout } from "@/ui/shared"
 import { Button, Stack } from "@mui/material"
 import { useRouter } from "next/navigation"
 import { ReactNode } from "react"
