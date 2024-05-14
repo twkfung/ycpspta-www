@@ -22,7 +22,7 @@
     "@tanstack/react-query": "^5.8.6",
     "@tanstack/react-query-devtools": "^5.8.6",
     "dayjs": "^1.11.10",
-    "next": "^14.2.1",
+    "next": "14.2.1",
     "pino": "^8.16.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -39,7 +39,7 @@
     "@types/react-dom": "^18.2.17",
     "@types/wpapi": "^1.1.4",
     "eslint": "^8.57.0",
-    "eslint-config-next": "^14.0.3",
+    "eslint-config-next": "14.2.1",
     "eslint-config-prettier": "^9.0.0",
     "prettier": "^3.1.0",
     "typescript": "^5.4.5"
