@@ -23,7 +23,7 @@
     "@tanstack/react-query-devtools": "^5.8.6",
     "dayjs": "^1.11.10",
     "next": "14.2.1",
-    "pino": "^8.21.0",
+    "pino": "^9.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-markdown": "^9.0.1",
