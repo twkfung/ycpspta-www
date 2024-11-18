@@ -32,30 +32,47 @@ class WpClient {
     return new WpClient(wp)
   }
   private async loadCategories() {
+    logger.info("loading categories")
+    const PAGINATION_SIZE = WpEnv.PAGINATION_SIZE
+    let page = 1
+    let categories: WpCategory[] = []
     try {
-      const categories = await this.wp
-        .categories()
-        .perPage(WpEnv.ITEMS_PER_PAGE)
-      categories.forEach((category: WpCategory) => {
-        this.categoryIdMap.set(category.slug, category)
-      })
-      this.categoriesLoaded = true
+      do {
+        categories = await this.wp
+          .categories()
+          .perPage(PAGINATION_SIZE)
+          .page(page)
+        categories.forEach((category: WpCategory) => {
+          this.categoryIdMap.set(category.slug, category)
+        })
+        page++
+      } while (categories.length >= PAGINATION_SIZE)
     } catch (error) {
       logger.error(error, "Error loading categories")
       throw error
     }
+    this.categoriesLoaded = true
+    logger.info("categories loaded")
   }
   private async loadTags() {
+    logger.info("loading tags")
+    const PAGINATION_SIZE = WpEnv.PAGINATION_SIZE
+    let page = 1
+    let tags: WpTag[] = []
     try {
-      const tags = await this.wp.tags().perPage(WpEnv.ITEMS_PER_PAGE)
-      tags.forEach((tag: WpTag) => {
-        this.tagIdMap.set(tag.slug, tag)
-      })
-      this.tagsLoaded = true
+      do {
+        tags = await this.wp.tags().perPage(PAGINATION_SIZE).page(page)
+        tags.forEach((tag: WpTag) => {
+          this.tagIdMap.set(tag.slug, tag)
+        })
+        page++
+      } while (tags.length >= PAGINATION_SIZE)
     } catch (error) {
       logger.error(error, "Error loading tags")
       throw error
     }
+    this.tagsLoaded = true
+    logger.info("tags loaded")
   }
 
   public async getCategoryId(slug: string): Promise<number | undefined> {
@@ -119,12 +136,12 @@ class WpClient {
     tagSlug: string
   }): Promise<WpPost[]> {
     const [catId, tagId] = await this.getTaxonomyIds(categorySlug, tagSlug)
-    const PageSize = WpEnv.ITEMS_PER_PAGE
+    const PAGINATION_SIZE = WpEnv.PAGINATION_SIZE
     let offset = 0
     const fetchFn = (offset: number) =>
       this.wp
         .posts()
-        .perPage(PageSize) // wp accepts max 100
+        .perPage(PAGINATION_SIZE) // wp accepts max 100
         .offset(offset)
         .orderby("date")
         .order("desc") // accepts "asc" or "desc"
@@ -138,8 +155,8 @@ class WpClient {
     // logger.info(`fetched ${posts.length} posts`)
     let wpPosts = this.mapWpPosts(postsJson)
     let posts = [...wpPosts]
-    while (wpPosts.length >= PageSize) {
-      offset += PageSize
+    while (wpPosts.length >= PAGINATION_SIZE) {
+      offset += PAGINATION_SIZE
       postsJson = await fetchFn(offset)
       wpPosts = this.mapWpPosts(postsJson)
       posts = [...posts, ...wpPosts]
@@ -150,19 +167,19 @@ class WpClient {
   public async fetchNonStickyPosts({
     categorySlug,
     tagSlug,
-    maxPosts = WpEnv.ITEMS_PER_PAGE,
+    maxPosts = WpEnv.VISIBLE_ITEMS_PER_PAGE,
   }: {
     categorySlug: string
     tagSlug: string
     maxPosts?: number
   }): Promise<WpPost[]> {
     const [catId, tagId] = await this.getTaxonomyIds(categorySlug, tagSlug)
-    const PageSize = WpEnv.ITEMS_PER_PAGE
+    const PAGE_SIZE = WpEnv.PAGINATION_SIZE
     let offset = 0
     const fetchFn = (offset: number) =>
       this.wp
         .posts()
-        .perPage(PageSize) // wp accepts max 100
+        .perPage(PAGE_SIZE) // wp accepts max 100
         .offset(offset)
         .orderby("date")
         .order("desc") // accepts "asc" or "desc"
@@ -176,8 +193,8 @@ class WpClient {
     // logger.info(`fetched ${posts.length} posts`)
     let wpPosts = this.mapWpPosts(postsJson)
     let posts = [...wpPosts]
-    while (maxPosts > posts.length && wpPosts.length >= PageSize) {
-      offset += PageSize
+    while (maxPosts > posts.length && wpPosts.length >= PAGE_SIZE) {
+      offset += PAGE_SIZE
       postsJson = await fetchFn(offset)
       wpPosts = this.mapWpPosts(postsJson)
       posts = [...posts, ...wpPosts]
@@ -188,19 +205,19 @@ class WpClient {
   public async fetchPosts({
     categorySlug,
     tagSlug,
-    maxPosts = WpEnv.ITEMS_PER_PAGE,
+    maxPosts = WpEnv.VISIBLE_ITEMS_PER_PAGE,
   }: {
     categorySlug: string
     tagSlug: string
     maxPosts?: number
   }): Promise<WpPost[]> {
     const [catId, tagId] = await this.getTaxonomyIds(categorySlug, tagSlug)
-    const PageSize = WpEnv.ITEMS_PER_PAGE
+    const PAGINATION_SIZE = WpEnv.PAGINATION_SIZE
     let offset = 0
     const fetchFn = (offset: number) =>
       this.wp
         .posts()
-        .perPage(PageSize) // wp accepts max 100
+        .perPage(PAGINATION_SIZE) // wp accepts max 100
         .offset(offset)
         .orderby("date")
         .order("desc") // accepts "asc" or "desc"
@@ -214,8 +231,8 @@ class WpClient {
     // logger.info(`fetched ${posts.length} posts`)
     let wpPosts = this.mapWpPosts(postsJson)
     let posts = [...wpPosts]
-    while (maxPosts > posts.length && wpPosts.length >= PageSize) {
-      offset += PageSize
+    while (maxPosts > posts.length && wpPosts.length >= PAGINATION_SIZE) {
+      offset += PAGINATION_SIZE
       postsJson = await fetchFn(offset)
       wpPosts = this.mapWpPosts(postsJson)
       posts = [...posts, ...wpPosts]

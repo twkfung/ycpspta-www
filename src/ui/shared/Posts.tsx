@@ -31,7 +31,7 @@ export function Posts({
   categorySlug,
   tagSlug,
   showDate = false,
-  maxPosts = WpEnv.ITEMS_PER_PAGE,
+  maxPosts = WpEnv.VISIBLE_ITEMS_PER_PAGE,
   collapseAfter = 5,
   stickyFirst,
   showPermaLink = false,

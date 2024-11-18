@@ -1,7 +1,8 @@
 import dayjs from "@/lib/dayjs"
 
-export module WpEnv {
-  export const ITEMS_PER_PAGE = 100
+export namespace WpEnv {
+  export const VISIBLE_ITEMS_PER_PAGE = 10
+  export const PAGINATION_SIZE = 100
 
   const anniversarySince = "2022-09-01"
 
