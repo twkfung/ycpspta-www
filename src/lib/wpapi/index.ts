@@ -1,7 +1,10 @@
+"use client"
+
 import WPAPI from "wpapi"
 import dayjs from "@/lib/dayjs"
 import { WpEnv } from "./WpEnv"
 import { logger } from "@/lib/pino"
+import z from "zod"
 
 export type WpCategory = {
   id: number
@@ -9,6 +12,7 @@ export type WpCategory = {
   slug: string
   parent: number
   name: string
+  description: string
 }
 
 export type WpTag = {
@@ -18,12 +22,35 @@ export type WpTag = {
   name: string
 }
 
+export type WpPage = {
+  id: number
+  slug: string
+  content: {
+    rendered: string
+  }
+}
+
+const Config = z
+  .object({
+    activeTags: z.string().array(),
+  })
+  .passthrough()
+type Config = z.infer<typeof Config>
+
+const CONFIG_DEFAULT = {
+  activeTags: ["pta-all-time"],
+}
+
 class WpClient {
   public wp: WPAPI
   private categoryIdMap: Map<string, WpCategory> = new Map()
   private tagIdMap: Map<string, WpTag> = new Map()
   private categoriesLoaded = false
   private tagsLoaded = false
+  private activeYearTagIds: number[] = []
+  private allTimeYearTagId: number | undefined = undefined
+  private configLoaded = false
+  private config: Config = CONFIG_DEFAULT
 
   private constructor(wp: WPAPI) {
     this.wp = wp
@@ -31,8 +58,59 @@ class WpClient {
   public static create(wp: WPAPI): WpClient {
     return new WpClient(wp)
   }
+  private async loadConfig() {
+    if (this.configLoaded) return
+    await this.loadTags()
+    this.allTimeYearTagId = await this.getTagId(WpEnv.TAG_SLUGS.PTA_ALL_TIME)
+    /*
+    logger.info("loading config")
+    const catResp: WpCategory[] = await this.wp.categories().slug("env")
+    if (catResp.length > 0) {
+      const jsonString = catResp[0].description //.replace(/(\r)?(\n)|(\r)/g, "")
+      const json = JSON.parse(jsonString)
+      const parsing = Config.safeParse(json)
+      if (parsing.success) {
+        this.config = parsing.data
+      } else {
+        logger.error(parsing.error, "error")
+      }
+    }
+      */
+
+    const pages: WpPage[] = await this.wp.pages().slug(WpEnv.PAGE_SLUGS.CONFIG)
+    if (pages.length > 0) {
+      const page = pages[0]
+      const text = extractTextFromHtml(page.content.rendered)
+      const json = text ? JSON.parse(text) : CONFIG_DEFAULT
+      const parsing = Config.safeParse(json)
+      if (parsing.success) {
+        this.config = parsing.data
+      } else {
+        logger.error(parsing.error, "error")
+      }
+    }
+    this.activeYearTagIds = (
+      await Promise.all(
+        this.config.activeTags.map(async (tag) => await this.getTagId(tag)),
+      )
+    ).filter((a) => a !== undefined)
+    logger.debug(`config: ${JSON.stringify(this.config)}`)
+    logger.debug(`allTimeYearTagId: ${this.allTimeYearTagId}`)
+    logger.debug(`activeYearTagIds: ${JSON.stringify(this.activeYearTagIds)}`)
+    this.configLoaded = true
+  }
+  public async getActiveYearTagIds(): Promise<number[]> {
+    await this.loadConfig()
+    return this.activeYearTagIds
+  }
+  public async getAllTimeYearTagId(): Promise<number | undefined> {
+    await this.loadConfig()
+    return this.allTimeYearTagId
+  }
+
   private async loadCategories() {
-    logger.info("loading categories")
+    if (this.categoriesLoaded) return
+    logger.debug("loading categories")
     const PAGINATION_SIZE = WpEnv.PAGINATION_SIZE
     let page = 1
     let categories: WpCategory[] = []
@@ -52,10 +130,11 @@ class WpClient {
       throw error
     }
     this.categoriesLoaded = true
-    logger.info("categories loaded")
+    logger.debug("categories loaded")
   }
   private async loadTags() {
-    logger.info("loading tags")
+    if (this.tagsLoaded) return
+    logger.debug("loading tags")
     const PAGINATION_SIZE = WpEnv.PAGINATION_SIZE
     let page = 1
     let tags: WpTag[] = []
@@ -72,7 +151,7 @@ class WpClient {
       throw error
     }
     this.tagsLoaded = true
-    logger.info("tags loaded")
+    logger.debug("tags loaded")
   }
 
   public async getCategoryId(slug: string): Promise<number | undefined> {
@@ -298,4 +377,20 @@ export const wpPostFromJson = (post: WpPostJson): WpPost => {
     excerpt: post.excerpt.rendered,
     sticky: post.sticky,
   }
+}
+;(async () => {
+  await wpClient.getAllTimeYearTagId()
+})()
+
+function extractTextFromHtml(markup: string): string | undefined {
+  if (typeof window !== "undefined") {
+    const parser = new DOMParser()
+    const document = parser.parseFromString(markup, "text/html")
+    return document.body.textContent || ""
+  }
+  return undefined
+}
+
+function removeNewlines(s: string): string {
+  return s.replace(/\r?\n|\r/g, "")
 }
