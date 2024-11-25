@@ -5,6 +5,7 @@ import dayjs from "@/lib/dayjs"
 import { WpEnv } from "./WpEnv"
 import { logger } from "@/lib/pino"
 import z from "zod"
+import { StrictUsePostsProps } from "@/lib/react-query/hooks"
 
 export type WpCategory = {
   id: number
@@ -30,6 +31,13 @@ export type WpPage = {
   }
 }
 
+type FetchFnParams = {
+  offset: number
+  pageSize: number
+}
+
+type FetchFn = (params: FetchFnParams) => Promise<WpPostJson[]>
+
 const Config = z
   .object({
     activeTags: z.string().array(),
@@ -48,7 +56,7 @@ class WpClient {
   private categoriesLoaded = false
   private tagsLoaded = false
   private activeYearTagIds: number[] = []
-  private allTimeYearTagId: number | undefined = undefined
+  private allTimeYearTagId: number = 0
   private configLoaded = false
   private config: Config = CONFIG_DEFAULT
 
@@ -61,7 +69,9 @@ class WpClient {
   private async loadConfig() {
     if (this.configLoaded) return
     await this.loadTags()
-    this.allTimeYearTagId = await this.getTagId(WpEnv.TAG_SLUGS.PTA_ALL_TIME)
+    let tagId = await this.getTagId(WpEnv.TAG_SLUGS.PTA_ALL_TIME)
+    if (tagId === undefined) throw new Error("undefined all-time year tag id")
+    this.allTimeYearTagId = tagId
     /*
     logger.info("loading config")
     const catResp: WpCategory[] = await this.wp.categories().slug("env")
@@ -99,13 +109,24 @@ class WpClient {
     logger.debug(`activeYearTagIds: ${JSON.stringify(this.activeYearTagIds)}`)
     this.configLoaded = true
   }
-  public async getActiveYearTagIds(): Promise<number[]> {
-    await this.loadConfig()
-    return this.activeYearTagIds
+  public getActiveYearTagIds(appendAllTime?: boolean) {
+    let ids = this.activeYearTagIds
+    this.loadConfig().then(() => {
+      ids = this.activeYearTagIds
+    })
+    if (appendAllTime) {
+      if (!ids.includes(this.allTimeYearTagId))
+        return [...ids, this.allTimeYearTagId]
+    } else if (appendAllTime === false)
+      return ids.filter((id) => id !== this.allTimeYearTagId)
+    return [...ids]
   }
-  public async getAllTimeYearTagId(): Promise<number | undefined> {
-    await this.loadConfig()
-    return this.allTimeYearTagId
+  public getAllTimeYearTagId() {
+    let id = this.allTimeYearTagId
+    this.loadConfig().then(() => {
+      id = this.allTimeYearTagId
+    })
+    return id
   }
 
   private async loadCategories() {
@@ -317,6 +338,88 @@ class WpClient {
       posts = [...posts, ...wpPosts]
     }
     return posts
+  }
+  public async getPosts({
+    categorySlug,
+    tagIds,
+    maxPosts = WpEnv.VISIBLE_ITEMS_PER_PAGE,
+    sticky,
+  }: Pick<StrictUsePostsProps, "categorySlug" | "tagIds" | "maxPosts"> & {
+    /** true for sticky posts only; false for non-sticky posts only; undefined for all posts */
+    sticky?: boolean
+  }): Promise<WpPost[]> {
+    const catId = await this.getCategoryId(categorySlug)
+    if (catId === undefined) throw new Error("undefined category slug")
+    if (tagIds.length === 0) return []
+    if (sticky) maxPosts = -1 // unlimited
+    if (maxPosts === 0) return []
+    const pageSize = WpEnv.PAGINATION_SIZE
+    const tasks = tagIds.map((tagId) =>
+      this.fetchMaxPostsByFn(this.createFetchFn({ catId, tagId, sticky }), {
+        maxPosts,
+        pageSize,
+      }),
+    )
+    const results = await Promise.all(tasks)
+    const posts = this.combinePosts(results)
+    if (maxPosts > 0) return posts.slice(0, maxPosts)
+    return posts
+  }
+
+  private createFetchFn({
+    catId,
+    tagId,
+    sticky,
+  }: {
+    catId: number
+    tagId: number
+    sticky?: boolean
+  }): FetchFn {
+    return (params: FetchFnParams) => {
+      logger.debug(
+        `createFetchFn params: ${JSON.stringify({ catId, tagId, sticky })}`,
+      )
+      let api = this.wp.posts()
+      api = api.perPage(params.pageSize).offset(params.offset)
+      api = api.orderby("date").order("desc")
+      api = api.after(WpEnv.djsAnniversarySince.toISOString())
+      api = api.status("publish")
+      api = api.categories(catId)
+      api = api.tags(tagId)
+      if (sticky !== undefined) api = api.sticky(sticky)
+      return api.get()
+    }
+  }
+
+  private async fetchMaxPostsByFn(
+    fetchFn: FetchFn,
+    { maxPosts, pageSize }: { maxPosts?: number; pageSize: number },
+  ) {
+    let offset = 0
+    let postsJson = await fetchFn({ offset, pageSize })
+    let wpPosts = this.mapWpPosts(postsJson)
+    let posts = [...wpPosts]
+    while (
+      (maxPosts === undefined || maxPosts > posts.length) &&
+      wpPosts.length >= pageSize
+    ) {
+      offset += pageSize
+      postsJson = await fetchFn({ offset, pageSize })
+      wpPosts = this.mapWpPosts(postsJson)
+      posts = [...posts, ...wpPosts]
+    }
+    return posts
+  }
+
+  private combinePosts(postsArray: WpPost[][]) {
+    const mergedArray = postsArray.flat()
+    const uniqueMap = new Map<number, WpPost>()
+    mergedArray.forEach((item) => uniqueMap.set(item.postId, item))
+    const uniqueArray = Array.from(uniqueMap.values())
+    uniqueArray.sort((a, b) =>
+      a.date.isAfter(b.date) ? -1 : a.date.isBefore(b.date) ? 1 : 0,
+    )
+    return uniqueArray
   }
 
   public async fetchPost({ postId }: { postId: number }): Promise<WpPost> {

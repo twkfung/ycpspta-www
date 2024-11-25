@@ -1,8 +1,8 @@
 import dayjs from "@/lib/dayjs"
 
 export namespace WpEnv {
-  export const VISIBLE_ITEMS_PER_PAGE = 10
-  export const PAGINATION_SIZE = 100
+  export const VISIBLE_ITEMS_PER_PAGE = 50
+  export const PAGINATION_SIZE = 100 // wp accepts max 100
 
   const anniversarySince = "2022-09-01"
 
@@ -29,6 +29,6 @@ export namespace WpEnv {
     EVENTS_CALENDAR = "events-calendar",
     EVENTS_ALBUMS = "events-albums",
 
-    ENV = "env",
+    // ENV = "env",
   }
 }

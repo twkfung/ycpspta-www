@@ -13,12 +13,13 @@ import {
 } from "@mui/material"
 import { WpEnv } from "@/lib/wpapi/WpEnv"
 import { CenteredBox } from "./CenteredBox"
-import { usePosts } from "@/lib/react-query/hooks"
+import { usePosts, usePostsV2 } from "@/lib/react-query/hooks"
 import { Post } from "./Post"
 
 type Props = {
   categorySlug: WpEnv.CATEGORY_SLUGS
   tagSlug: WpEnv.TAG_SLUGS
+  tagIds?: number[]
   showDate?: boolean
   maxPosts?: number
   collapseAfter?: number
@@ -30,6 +31,7 @@ type Props = {
 export function Posts({
   categorySlug,
   tagSlug,
+  tagIds,
   showDate = false,
   maxPosts = WpEnv.VISIBLE_ITEMS_PER_PAGE,
   collapseAfter = 5,
@@ -37,9 +39,17 @@ export function Posts({
   showPermaLink = false,
   showStickiness = false,
 }: Props) {
+  /*
   const { isPending, isError, data, error, refetch } = usePosts({
     categorySlug,
     tagSlug,
+    filterSticky: !!stickyFirst,
+    maxPosts,
+  })
+    */
+  const { isPending, isError, data, error, refetch } = usePostsV2({
+    categorySlug,
+    tagIds,
     filterSticky: !!stickyFirst,
     maxPosts,
   })
