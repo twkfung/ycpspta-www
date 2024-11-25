@@ -69,7 +69,7 @@ class WpClient {
   private async loadConfig() {
     if (this.configLoaded) return
     await this.loadTags()
-    let tagId = await this.getTagId(WpEnv.TAG_SLUGS.PTA_ALL_TIME)
+    let tagId = this.getTagId(WpEnv.TAG_SLUGS.PTA_ALL_TIME)
     if (tagId === undefined) throw new Error("undefined all-time year tag id")
     this.allTimeYearTagId = tagId
 
@@ -87,7 +87,7 @@ class WpClient {
     }
     this.activeYearTagIds = (
       await Promise.all(
-        this.config.activeTags.map(async (tag) => await this.getTagId(tag)),
+        this.config.activeTags.map(async (tag) => this.getTagId(tag)),
       )
     ).filter((a) => a !== undefined)
     logger.debug(`config: ${JSON.stringify(this.config)}`)
@@ -161,14 +161,17 @@ class WpClient {
     logger.debug("tags loaded")
   }
 
-  public async getCategoryId(slug: string): Promise<number | undefined> {
-    if (!this.categoriesLoaded) await this.loadCategories()
+  public getCategoryId(slug: string): number | undefined {
+    if (!this.categoriesLoaded) this.loadCategories().then(() => {})
     let lookup = this.categoryIdMap.get(slug)
     if (!lookup) {
       try {
-        const categories = await this.wp.categories().slug(slug)
-        const category: WpCategory = categories[0]
-        this.categoryIdMap.set(category.slug, category)
+        this.wp
+          .categories()
+          .slug(slug)
+          .then((categories) => {
+            this.categoryIdMap.set(categories[0].slug, categories[0])
+          })
       } catch (error) {
         const message = `Error fetching category: ${slug}`
         logger.error(message)
@@ -180,14 +183,21 @@ class WpClient {
     return lookup.id
   }
 
-  public async getTagId(slug: string): Promise<number | undefined> {
-    if (!this.tagsLoaded) await this.loadTags()
+  public getTagId(slug: string): number | undefined {
+    let map: typeof this.tagIdMap
+    if (!this.tagsLoaded)
+      this.loadTags().then(() => {
+        map = this.tagIdMap
+      })
     let lookup = this.tagIdMap.get(slug)
     if (!lookup) {
       try {
-        const tags = await this.wp.tags().slug(slug)
-        const tag: WpTag = tags[0]
-        this.tagIdMap.set(tag.slug, tag)
+        this.wp
+          .tags()
+          .slug(slug)
+          .then((tags) => {
+            this.tagIdMap.set(tags[0].slug, tags[0])
+          })
       } catch (error) {
         const message = `Error fetching tag: ${slug}`
         logger.error(message)
@@ -199,11 +209,9 @@ class WpClient {
     return lookup.id
   }
 
-  private async getTaxonomyIds(categorySlug: string, tagSlug: string) {
-    const [catId, tagId] = await Promise.all([
-      this.getCategoryId(categorySlug),
-      this.getTagId(tagSlug),
-    ])
+  private getTaxonomyIds(categorySlug: string, tagSlug: string) {
+    const catId = this.getCategoryId(categorySlug)
+    const tagId = this.getTagId(tagSlug)
     if (catId === undefined || tagId === undefined) {
       logger.error(
         { categorySlug, catId, tagSlug, tagId },
@@ -223,7 +231,7 @@ class WpClient {
     /** true for sticky posts only; false for non-sticky posts only; undefined for all posts */
     sticky?: boolean
   }): Promise<WpPost[]> {
-    const catId = await this.getCategoryId(categorySlug)
+    const catId = this.getCategoryId(categorySlug)
     if (catId === undefined) throw new Error("undefined category slug")
     if (tagIds.length === 0) return []
     if (sticky) maxPosts = -1 // unlimited
