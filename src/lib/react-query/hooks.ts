@@ -28,7 +28,7 @@ export type LooseUsePostsProps = Omit<
 > &
   Partial<Pick<StrictUsePostsProps, "tagIds" | "maxPosts">>
 
-export function usePostsV2(props: LooseUsePostsProps) {
+export function usePosts(props: LooseUsePostsProps) {
   /**
    * normalize undefined values to default
    */
@@ -39,10 +39,6 @@ export function usePostsV2(props: LooseUsePostsProps) {
   }
   logger.debug(`p: ${JSON.stringify(p)}`)
   return useQuery(queries.posts.byCategory(p))
-}
-
-export function usePosts(props: UsePostsProps) {
-  return useQuery(queries.posts.categorized(props))
 }
 
 export function usePost(props: UsePostProps) {
