@@ -8,31 +8,21 @@ export type UsePostProps = {
   postId: number
 }
 
-export type UsePostsProps = {
-  categorySlug: WpEnv.CATEGORY_SLUGS
-  tagSlug: WpEnv.TAG_SLUGS
-  filterSticky: boolean
-  maxPosts?: number
-}
-
-export type StrictUsePostsProps = {
+export type FetchPostsProps = {
   categorySlug: WpEnv.CATEGORY_SLUGS
   tagIds: number[]
   filterSticky: boolean /** undefined for no filter; boolean for sticky or non-sticky only */
   maxPosts: number /** negative for unlimited; zero for noop; undefined for default */
 }
 
-export type LooseUsePostsProps = Omit<
-  StrictUsePostsProps,
-  "tagIds" | "maxPosts"
-> &
-  Partial<Pick<StrictUsePostsProps, "tagIds" | "maxPosts">>
+export type UsePostsProps = Omit<FetchPostsProps, "tagIds" | "maxPosts"> &
+  Partial<Pick<FetchPostsProps, "tagIds" | "maxPosts">>
 
-export function usePosts(props: LooseUsePostsProps) {
+export function usePosts(props: UsePostsProps) {
   /**
    * normalize undefined values to default
    */
-  let p: StrictUsePostsProps = {
+  let p: FetchPostsProps = {
     ...props,
     tagIds: props.tagIds ?? wpClient.getActiveYearTagIds(true),
     maxPosts: props.maxPosts ?? WpEnv.VISIBLE_ITEMS_PER_PAGE,

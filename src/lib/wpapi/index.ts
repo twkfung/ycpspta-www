@@ -5,7 +5,7 @@ import dayjs from "@/lib/dayjs"
 import { WpEnv } from "./WpEnv"
 import { logger } from "@/lib/pino"
 import z from "zod"
-import { StrictUsePostsProps } from "@/lib/react-query/hooks"
+import { FetchPostsProps } from "@/lib/react-query/hooks"
 
 export type WpCategory = {
   id: number
@@ -219,7 +219,7 @@ class WpClient {
     tagIds,
     maxPosts = WpEnv.VISIBLE_ITEMS_PER_PAGE,
     sticky,
-  }: Pick<StrictUsePostsProps, "categorySlug" | "tagIds" | "maxPosts"> & {
+  }: Pick<FetchPostsProps, "categorySlug" | "tagIds" | "maxPosts"> & {
     /** true for sticky posts only; false for non-sticky posts only; undefined for all posts */
     sticky?: boolean
   }): Promise<WpPost[]> {

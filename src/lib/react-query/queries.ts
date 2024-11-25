@@ -1,13 +1,13 @@
 import { createQueryKeys, mergeQueryKeys } from "@lukemorales/query-key-factory"
 import { wpClient } from "@/lib/wpapi"
-import { StrictUsePostsProps, UsePostProps, UsePostsProps } from "./hooks"
+import { FetchPostsProps, UsePostProps } from "./hooks"
 import { logger } from "../pino"
 
 async function fetchPost(props: UsePostProps) {
   return await wpClient.fetchPost(props)
 }
 
-async function fetchPosts(props: StrictUsePostsProps) {
+async function fetchPosts(props: FetchPostsProps) {
   logger.info(`fetchPosts props: ${JSON.stringify(props)}`)
   if (props.filterSticky) {
     const wpStickyPosts = await wpClient.getPosts({ ...props, sticky: true })
@@ -41,7 +41,7 @@ const qkPosts = createQueryKeys("posts", {
     queryKey: [props.postId, props],
     queryFn: (_ctx) => fetchPost(props),
   }),
-  byCategory: (props: StrictUsePostsProps) => {
+  byCategory: (props: FetchPostsProps) => {
     return {
       queryKey: [props.categorySlug, props.tagIds, props.filterSticky, props],
       queryFn: (_ctx) => fetchPosts(props),
