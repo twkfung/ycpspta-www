@@ -1,18 +1,30 @@
 import { createQueryKeys, mergeQueryKeys } from "@lukemorales/query-key-factory"
 import { wpClient } from "@/lib/wpapi"
-import { UsePostProps, UsePostsProps } from "./hooks"
+import { FetchPostsProps, UsePostProps } from "./hooks"
+import { logger } from "../pino"
 
 async function fetchPost(props: UsePostProps) {
   return await wpClient.fetchPost(props)
 }
 
-async function fetchPosts(props: UsePostsProps) {
+async function fetchPosts(props: FetchPostsProps) {
+  logger.info(`fetchPosts props: ${JSON.stringify(props)}`)
   if (props.filterSticky) {
-    const wpStickyPosts = await wpClient.fetchStickyPosts(props)
-    const wpNonStickyPosts = await wpClient.fetchNonStickyPosts(props)
+    const wpStickyPosts = await wpClient.getPosts({ ...props, sticky: true })
+    logger.info(
+      `fetchPosts getPosts sticky:${JSON.stringify(wpStickyPosts.length)}`,
+    )
+    const wpNonStickyPosts = await wpClient.getPosts({
+      ...props,
+      sticky: false,
+    })
+    logger.info(
+      `fetchPosts getPosts non-sticky:${JSON.stringify(wpNonStickyPosts.length)}`,
+    )
     return { stickyPosts: wpStickyPosts, posts: wpNonStickyPosts }
   }
-  const wpPosts = await wpClient.fetchPosts(props)
+  const wpPosts = await wpClient.getPosts(props)
+  logger.info(`fetchPosts getPosts all:${JSON.stringify(wpPosts.length)}`)
   return { stickyPosts: [], posts: wpPosts }
 }
 
@@ -29,10 +41,12 @@ const qkPosts = createQueryKeys("posts", {
     queryKey: [props.postId, props],
     queryFn: (_ctx) => fetchPost(props),
   }),
-  categorized: (props: UsePostsProps) => ({
-    queryKey: [props.categorySlug, props.tagSlug, props.filterSticky, props],
-    queryFn: (_ctx) => fetchPosts(props),
-  }),
+  byCategory: (props: FetchPostsProps) => {
+    return {
+      queryKey: [props.categorySlug, props.tagIds, props.filterSticky, props],
+      queryFn: (_ctx) => fetchPosts(props),
+    }
+  },
 })
 
 export const queries = mergeQueryKeys(qkCategories, qkTags, qkPosts)

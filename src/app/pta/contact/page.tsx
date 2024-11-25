@@ -4,10 +4,7 @@ import { WpEnv } from "@/lib/wpapi/WpEnv"
 export default function Page() {
   return (
     <main>
-      <Posts
-        categorySlug={WpEnv.CATEGORY_SLUGS.PTA_CONTACT}
-        tagSlug={WpEnv.TAG_SLUGS.PTA_ALL_TIME}
-      />
+      <Posts categorySlug={WpEnv.CATEGORY_SLUGS.PTA_CONTACT} />
     </main>
   )
 }

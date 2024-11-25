@@ -18,7 +18,7 @@ import { Post } from "./Post"
 
 type Props = {
   categorySlug: WpEnv.CATEGORY_SLUGS
-  tagSlug: WpEnv.TAG_SLUGS
+  tagIds?: number[]
   showDate?: boolean
   maxPosts?: number
   collapseAfter?: number
@@ -29,9 +29,9 @@ type Props = {
 
 export function Posts({
   categorySlug,
-  tagSlug,
+  tagIds,
   showDate = false,
-  maxPosts = WpEnv.ITEMS_PER_PAGE,
+  maxPosts = WpEnv.VISIBLE_ITEMS_PER_PAGE,
   collapseAfter = 5,
   stickyFirst,
   showPermaLink = false,
@@ -39,7 +39,7 @@ export function Posts({
 }: Props) {
   const { isPending, isError, data, error, refetch } = usePosts({
     categorySlug,
-    tagSlug,
+    tagIds,
     filterSticky: !!stickyFirst,
     maxPosts,
   })
