@@ -305,10 +305,19 @@ class WpClient {
     return uniqueArray
   }
 
-  public async fetchPost({ postId }: { postId: number }): Promise<WpPost> {
+  public async fetchPostById({ postId }: { postId: number }): Promise<WpPost> {
     const fetchFn = (postId: number) =>
       this.wp.posts().id(postId).status("publish").get()
     let postJson = await fetchFn(postId)
+    logger.info(postJson, "postJson")
+    let wpPost = wpPostFromJson(postJson)
+    return wpPost
+  }
+
+  public async fetchPostBySlug({ slug }: { slug: string }): Promise<WpPost> {
+    const fetchFn = (slug: string) =>
+      this.wp.posts().slug(slug).status("publish").get()
+    let postJson = await fetchFn(slug)
     logger.info(postJson, "postJson")
     let wpPost = wpPostFromJson(postJson)
     return wpPost

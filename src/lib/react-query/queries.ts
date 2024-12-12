@@ -4,7 +4,9 @@ import { FetchPostsProps, UsePostProps } from "./hooks"
 import { logger } from "../pino"
 
 async function fetchPost(props: UsePostProps) {
-  return await wpClient.fetchPost(props)
+  if (props.postId)
+    return await wpClient.fetchPostById({ postId: props.postId })
+  else return await wpClient.fetchPostBySlug(props)
 }
 
 async function fetchPosts(props: FetchPostsProps) {
@@ -36,9 +38,13 @@ const qkTags = createQueryKeys("tags", {
   all: null,
 })
 
+function toKey(props: UsePostProps) {
+  return props.postId ? props.postId : props.slug
+}
+
 const qkPosts = createQueryKeys("posts", {
   single: (props: UsePostProps) => ({
-    queryKey: [props.postId, props],
+    queryKey: [toKey(props), props],
     queryFn: (_ctx) => fetchPost(props),
   }),
   byCategory: (props: FetchPostsProps) => {

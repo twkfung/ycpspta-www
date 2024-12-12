@@ -5,8 +5,14 @@ import { wpClient } from "@/lib/wpapi"
 import { logger } from "../pino"
 
 export type UsePostProps = {
+  postId?: number
+  slug: string
+}
+
+export type UsePostByIdProps = {
   postId: number
 }
+export type UsePostBySlugProps = { slug: string }
 
 export type FetchPostsProps = {
   categorySlug: WpEnv.CATEGORY_SLUGS
