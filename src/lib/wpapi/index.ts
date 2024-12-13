@@ -309,7 +309,7 @@ class WpClient {
     const fetchFn = (postId: number) =>
       this.wp.posts().id(postId).status("publish").get()
     let postJson = await fetchFn(postId)
-    logger.info(postJson, "postJson")
+    logger.info({ postJson }, "postJson")
     let wpPost = wpPostFromJson(postJson)
     return wpPost
   }
@@ -317,10 +317,11 @@ class WpClient {
   public async fetchPostBySlug({ slug }: { slug: string }): Promise<WpPost> {
     const fetchFn = (slug: string) =>
       this.wp.posts().slug(slug).status("publish").get()
-    let postJson = await fetchFn(slug)
-    logger.info(postJson, "postJson")
-    let wpPost = wpPostFromJson(postJson)
-    return wpPost
+    let postsJson = await fetchFn(slug)
+    logger.info({ postsJson }, "postJson")
+    let wpPosts = this.mapWpPosts(postsJson)
+    if (wpPosts.length > 0) return wpPosts[0]
+    throw new Error(`Post not found by slug: "${slug}"`)
   }
 
   private mapWpPosts(posts: WpPostJson[]): WpPost[] {
