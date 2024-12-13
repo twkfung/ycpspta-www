@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query"
 import { queries } from "./queries"
 import { WpEnv } from "@/lib/wpapi/WpEnv"
 import { wpClient } from "@/lib/wpapi"
-import { logger } from "../pino"
+import { logger } from "@/lib/pino"
 
 export type UsePostProps = {
   postId?: number
