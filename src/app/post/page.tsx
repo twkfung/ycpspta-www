@@ -48,5 +48,5 @@ export default function Page() {
         </Typography>
       </CenteredBox>
     )
-  return <Post post={post} collapsible={false} showDate={true} />
+  return <Post post={post} collapsible={false} showDate={true} showSlugLink />
 }

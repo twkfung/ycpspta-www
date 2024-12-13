@@ -341,6 +341,7 @@ export type WpPostJson = {
   guid: {
     rendered: string
   }
+  slug: string
   title: {
     rendered: string
   }
@@ -357,6 +358,7 @@ export type WpPost = {
   postId: number
   date: dayjs.Dayjs
   guid: string
+  slug: string
   title: string
   content: string
   excerpt: string
@@ -368,6 +370,7 @@ export const wpPostFromJson = (post: WpPostJson): WpPost => {
     postId: post.id,
     date: dayjs(post.date),
     guid: post.guid.rendered,
+    slug: post.slug,
     title: post.title.rendered,
     content: post.content.rendered,
     excerpt: post.excerpt.rendered,

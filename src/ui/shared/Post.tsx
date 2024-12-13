@@ -1,7 +1,7 @@
 "use client"
 import { type WpPost } from "@/lib/wpapi"
 import { useCallback, useState } from "react"
-import { Paper, Typography, Stack, IconButton } from "@mui/material"
+import { Paper, Typography, Stack, IconButton, Tooltip } from "@mui/material"
 import {
   ExpandLess as IconExpandLess,
   ExpandMore as IconExpandMore,
@@ -19,6 +19,7 @@ type PostProps = {
   defaultCollapsed?: boolean
   showPermaLink?: boolean
   showStickiness?: boolean
+  showSlugLink?: boolean
 }
 export function Post({
   post,
@@ -27,6 +28,7 @@ export function Post({
   showDate = false,
   showPermaLink = false,
   showStickiness = false,
+  showSlugLink = false,
 }: PostProps) {
   const [collapsed, setCollapse] = useState(!!defaultCollapsed)
   const handleCollapseToggle = useCallback(() => {
@@ -52,19 +54,38 @@ export function Post({
           <Typography variant="h6">{post.title}</Typography>
           {showStickiness && post.sticky && <IconPinned fontSize="small" />}
           {showPermaLink && (
-            <Link
-              href={{
-                pathname: "/post/",
-                query: { postId: post.postId },
-              }}
-              onClick={(event) => {
-                event.stopPropagation()
-              }}
-            >
-              <IconButton aria-label="open post">
-                <IconOpenLink fontSize="small" />
-              </IconButton>
-            </Link>
+            <Tooltip title="open permalink">
+              <Link
+                href={{
+                  pathname: "/post/",
+                  query: { postId: post.postId },
+                }}
+                onClick={(event) => {
+                  event.stopPropagation()
+                }}
+              >
+                <IconButton aria-label="open post">
+                  <IconOpenLink fontSize="small" />
+                </IconButton>
+              </Link>
+            </Tooltip>
+          )}
+          {showSlugLink && (
+            <Tooltip title="open slug link">
+              <Link
+                href={{
+                  pathname: "/post/",
+                  query: { slug: post.slug },
+                }}
+                onClick={(event) => {
+                  event.stopPropagation()
+                }}
+              >
+                <IconButton aria-label="open post">
+                  <IconOpenLink fontSize="small" />
+                </IconButton>
+              </Link>
+            </Tooltip>
           )}
         </Stack>
         {showDate && (
