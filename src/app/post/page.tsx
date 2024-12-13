@@ -30,7 +30,10 @@ export default function Page() {
     slug,
   })
 
-  if (postId === undefined || isNaN(postId) || isParamPostIdNull)
+  if (
+    (postId === undefined || isNaN(postId) || isParamPostIdNull) &&
+    isParamSlugNull
+  )
     return (
       <CenteredBox>
         <Typography>Invalid post id</Typography>
