@@ -2,11 +2,17 @@ import { useQuery } from "@tanstack/react-query"
 import { queries } from "./queries"
 import { WpEnv } from "@/lib/wpapi/WpEnv"
 import { wpClient } from "@/lib/wpapi"
-import { logger } from "../pino"
+import { logger } from "@/lib/pino"
 
 export type UsePostProps = {
+  postId?: number
+  slug: string
+}
+
+export type UsePostByIdProps = {
   postId: number
 }
+export type UsePostBySlugProps = { slug: string }
 
 export type FetchPostsProps = {
   categorySlug: WpEnv.CATEGORY_SLUGS

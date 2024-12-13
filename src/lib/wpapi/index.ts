@@ -305,13 +305,23 @@ class WpClient {
     return uniqueArray
   }
 
-  public async fetchPost({ postId }: { postId: number }): Promise<WpPost> {
+  public async fetchPostById({ postId }: { postId: number }): Promise<WpPost> {
     const fetchFn = (postId: number) =>
       this.wp.posts().id(postId).status("publish").get()
     let postJson = await fetchFn(postId)
-    logger.info(postJson, "postJson")
+    logger.info({ postJson }, "postJson")
     let wpPost = wpPostFromJson(postJson)
     return wpPost
+  }
+
+  public async fetchPostBySlug({ slug }: { slug: string }): Promise<WpPost> {
+    const fetchFn = (slug: string) =>
+      this.wp.posts().slug(slug).status("publish").get()
+    let postsJson = await fetchFn(slug)
+    logger.info({ postsJson }, "postJson")
+    let wpPosts = this.mapWpPosts(postsJson)
+    if (wpPosts.length > 0) return wpPosts[0]
+    throw new Error(`Post not found by slug: "${slug}"`)
   }
 
   private mapWpPosts(posts: WpPostJson[]): WpPost[] {
@@ -331,6 +341,7 @@ export type WpPostJson = {
   guid: {
     rendered: string
   }
+  slug: string
   title: {
     rendered: string
   }
@@ -347,6 +358,7 @@ export type WpPost = {
   postId: number
   date: dayjs.Dayjs
   guid: string
+  slug: string
   title: string
   content: string
   excerpt: string
@@ -358,6 +370,7 @@ export const wpPostFromJson = (post: WpPostJson): WpPost => {
     postId: post.id,
     date: dayjs(post.date),
     guid: post.guid.rendered,
+    slug: post.slug,
     title: post.title.rendered,
     content: post.content.rendered,
     excerpt: post.excerpt.rendered,

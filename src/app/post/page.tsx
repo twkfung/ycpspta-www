@@ -10,12 +10,15 @@ import { Post } from "@/ui/shared/Post"
 export default function Page() {
   const params = useSearchParams()
   const paramPostId = params.get("postId")
+  const paramSlug = params.get("slug")
   const router = useRouter()
   const isParamPostIdNull = paramPostId === null || paramPostId === ""
+  const isParamSlugNull = paramSlug === null || paramSlug === ""
   useEffect(() => {
-    if (isParamPostIdNull) router.replace("/")
-  }, [isParamPostIdNull, router])
-  const postId = Number(paramPostId)
+    if (isParamPostIdNull && isParamSlugNull) router.replace("/")
+  }, [isParamPostIdNull, isParamSlugNull, router])
+  const postId = isParamPostIdNull ? undefined : Number(paramPostId)
+  const slug = paramSlug || ""
   const {
     isPending,
     isError,
@@ -23,10 +26,14 @@ export default function Page() {
     data: post,
     refetch,
   } = usePost({
-    postId: postId,
+    postId,
+    slug,
   })
 
-  if (isNaN(postId) || isParamPostIdNull)
+  if (
+    (postId === undefined || isNaN(postId) || isParamPostIdNull) &&
+    isParamSlugNull
+  )
     return (
       <CenteredBox>
         <Typography>Invalid post id</Typography>
@@ -41,5 +48,5 @@ export default function Page() {
         </Typography>
       </CenteredBox>
     )
-  return <Post post={post} collapsible={false} showDate={true} />
+  return <Post post={post} collapsible={false} showDate={true} showSlugLink />
 }
