@@ -10,7 +10,7 @@ import { Post } from "@/ui/shared/Post"
 export default function Page() {
   const params = useSearchParams()
   const paramPostId = params.get("postId")
-  const paramSlug = params.get("slug")
+  const paramSlug = params.get("slug") || params.get("name")
   const router = useRouter()
   const isParamPostIdEmpty = paramPostId === null || paramPostId === ""
   const isParamSlugEmpty = paramSlug === null || paramSlug === ""

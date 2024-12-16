@@ -71,11 +71,11 @@ export function Post({
             </Tooltip>
           )}
           {showSlugLink && (
-            <Tooltip title="open slug link">
+            <Tooltip title="open named link">
               <Link
                 href={{
                   pathname: "/post/",
-                  query: { slug: post.slug },
+                  query: { name: post.slug },
                 }}
                 onClick={(event) => {
                   event.stopPropagation()
