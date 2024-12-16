@@ -26,7 +26,7 @@ export function Footer() {
         </IconButton>
       </Link>
       <Typography align="center" variant="caption" flexGrow={1}>
-        版權所有 &copy; {dayjs().year()} 油蔴地天主教小學(海泓道)家長教師會
+        版權所有 &copy; {dayjs().year()} 油蔴地天主教小學(海泓道) 家長教師會
       </Typography>
     </Box>
   )
