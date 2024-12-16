@@ -25,6 +25,12 @@ const nextConfig = {
   },
   output: "export",
   trailingSlash: true,
+  experimental: {
+    staleTimes: {
+      dynamic: 60,
+      static: 300,
+    },
+  },
 }
 
 module.exports = nextConfig
