@@ -27,6 +27,7 @@ import { usePathname, useRouter } from "next/navigation"
 import { logger } from "@/lib/pino"
 import { AppEnv } from "./appEnv"
 import Link from "next/link"
+import ptaLogo from "./YCPSPTA_logo_small.png"
 
 type NavItem = {
   key: string
@@ -169,6 +170,20 @@ function NavbarDrawer({ navItems }: { navItems: NavItemContainer[] }) {
           <IconButton onClick={handleDrawerOpen}>
             <IconMenu />
           </IconButton>
+          <Link
+            href="/"
+            onClick={() => setOpen(false)}
+            style={{ textDecoration: "none" }}
+          >
+            <Avatar
+              variant="rounded"
+              sx={{
+                bgcolor: theme.palette.primary.dark,
+              }}
+            >
+              家
+            </Avatar>
+          </Link>
           <Typography variant="h4" align="center" sx={{ flexGrow: 1 }}>
             油蔴地天主教小學(海泓道)家長教師會
           </Typography>
@@ -181,8 +196,9 @@ function NavbarDrawer({ navItems }: { navItems: NavItemContainer[] }) {
             <Avatar
               variant="rounded"
               sx={{
-                bgcolor: theme.palette.primary.dark,
+                bgcolor: theme.palette.background.default,
               }}
+              src={ptaLogo.src}
             >
               家
             </Avatar>
