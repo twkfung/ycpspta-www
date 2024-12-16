@@ -120,6 +120,11 @@ const navItems: NavItemContainer[] = [
     href: "/events/",
     children: [
       {
+        key: "/events/promo/",
+        label: "活動推介",
+        href: "/events/promo/",
+      },
+      {
         key: "/events/calendar/",
         label: "年度活動",
         href: "/events/calendar/",
