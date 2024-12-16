@@ -12,7 +12,7 @@ export namespace WpEnv {
   }
   export enum TAG_SLUGS {
     PTA_ALL_TIME = "pta-all-time",
-    PTA_2022_TO_2024 = "pta-2022-2024",
+    // PTA_2022_TO_2024 = "pta-2022-2024",
   }
   export enum CATEGORY_SLUGS {
     MEMBERS_NEWS = "members-news",
@@ -28,6 +28,7 @@ export namespace WpEnv {
     HELPERS_CODE = "helpers-code",
     EVENTS_CALENDAR = "events-calendar",
     EVENTS_ALBUMS = "events-albums",
+    EVENTS_PROMO = "events-promo",
 
     // ENV = "env",
   }
