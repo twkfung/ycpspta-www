@@ -71,7 +71,7 @@ export function Post({
             </Tooltip>
           )}
           {showSlugLink && (
-            <Tooltip title="open slug link">
+            <Tooltip title="open named link">
               <Link
                 href={{
                   pathname: "/post/",
