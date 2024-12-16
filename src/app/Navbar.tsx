@@ -185,7 +185,7 @@ function NavbarDrawer({ navItems }: { navItems: NavItemContainer[] }) {
             </Avatar>
           </Link>
           <Typography variant="h4" align="center" sx={{ flexGrow: 1 }}>
-            油蔴地天主教小學(海泓道)家長教師會
+            油蔴地天主教小學(海泓道) 家長教師會
           </Typography>
 
           <Link
