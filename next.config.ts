@@ -1,12 +1,10 @@
-/** @type {import('next').NextConfig} */
-
 const isGitHubActions = process.env.GITHUB_ACTIONS || false
 let assetPrefix = ""
 let basePath = ""
 
 if (isGitHubActions) {
   // get repo name from `<owner>/<repo>`
-  const repo = process.env.GITHUB_REPOSITORY.replace(/.*?\//, "")
+  const repo = process.env.GITHUB_REPOSITORY!.replace(/.*?\//, "")
   assetPrefix = `/${repo}/`.replace("//", "/")
   basePath = `/${repo}`
 } else if (process.env.NODE_ENV === "development") {
@@ -20,8 +18,8 @@ if (isGitHubActions) {
 
 const nextConfig = {
   reactStrictMode: true,
-  assetPrefix: (assetPrefix === "" ? undefined : assetPrefix),
-  basePath: (basePath === "" ? undefined : basePath),
+  assetPrefix: assetPrefix === "" ? undefined : assetPrefix,
+  basePath: basePath === "" ? undefined : basePath,
   images: {
     unoptimized: true,
   },
