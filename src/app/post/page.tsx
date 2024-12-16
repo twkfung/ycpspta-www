@@ -12,12 +12,12 @@ export default function Page() {
   const paramPostId = params.get("postId")
   const paramSlug = params.get("slug")
   const router = useRouter()
-  const isParamPostIdNull = paramPostId === null || paramPostId === ""
-  const isParamSlugNull = paramSlug === null || paramSlug === ""
+  const isParamPostIdEmpty = paramPostId === null || paramPostId === ""
+  const isParamSlugEmpty = paramSlug === null || paramSlug === ""
   useEffect(() => {
-    if (isParamPostIdNull && isParamSlugNull) router.replace("/")
-  }, [isParamPostIdNull, isParamSlugNull, router])
-  const postId = isParamPostIdNull ? undefined : Number(paramPostId)
+    if (isParamPostIdEmpty && isParamSlugEmpty) router.replace("/")
+  }, [isParamPostIdEmpty, isParamSlugEmpty, router])
+  const postId = isParamPostIdEmpty ? undefined : Number(paramPostId)
   const slug = paramSlug || ""
   const {
     isPending,
@@ -31,8 +31,8 @@ export default function Page() {
   })
 
   if (
-    (postId === undefined || isNaN(postId) || isParamPostIdNull) &&
-    isParamSlugNull
+    (postId === undefined || isNaN(postId) || isParamPostIdEmpty) &&
+    isParamSlugEmpty
   )
     return (
       <CenteredBox>
