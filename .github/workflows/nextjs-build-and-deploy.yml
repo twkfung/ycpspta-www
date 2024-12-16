@@ -18,7 +18,7 @@ jobs:
           node-version: lts/jod
           cache: "npm"
       - name: Installing my packages
-        run: npm ci
+        run: npm ci --force
       - name: Build my App
         # Suppress Jekyll not serving the _next folder
         run: |
