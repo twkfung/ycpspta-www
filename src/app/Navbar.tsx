@@ -167,10 +167,38 @@ function NavbarDrawer({ navItems }: { navItems: NavItemContainer[] }) {
     <Box sx={{ display: "flex" }}>
       <AppBar position="sticky">
         <Toolbar variant="dense">
+          <Link
+            href="/"
+            onClick={() => setOpen(false)}
+            style={{ textDecoration: "none" }}
+          >
+            <Avatar
+              variant="rounded"
+              sx={{
+                bgcolor: theme.palette.background.default,
+              }}
+              src={ptaLogo.src}
+            >
+              家
+            </Avatar>
+          </Link>
           <IconButton onClick={handleDrawerOpen}>
             <IconMenu />
           </IconButton>
-          <Link
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            flexGrow={1}
+            // sx={{ gap: 1 }}
+          >
+            <Box display="flex" alignItems="center" sx={{ gap: 1 }}>
+              <Typography variant="h4" align="center" component="div">
+                油蔴地天主教小學(海泓道) 家長教師會
+              </Typography>
+            </Box>
+          </Box>
+          {/* <Link
             href="/"
             onClick={() => setOpen(false)}
             style={{ textDecoration: "none" }}
@@ -186,7 +214,7 @@ function NavbarDrawer({ navItems }: { navItems: NavItemContainer[] }) {
           </Link>
           <Typography variant="h4" align="center" sx={{ flexGrow: 1 }}>
             油蔴地天主教小學(海泓道) 家長教師會
-          </Typography>
+          </Typography> */}
 
           <Link
             href="/"
@@ -196,9 +224,8 @@ function NavbarDrawer({ navItems }: { navItems: NavItemContainer[] }) {
             <Avatar
               variant="rounded"
               sx={{
-                bgcolor: theme.palette.background.default,
+                bgcolor: theme.palette.primary.dark,
               }}
-              src={ptaLogo.src}
             >
               家
             </Avatar>
