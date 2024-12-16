@@ -13,7 +13,7 @@ This page is a developer's note on the development of this project.
 
 1. Start with an empty GitHub repo.
 2. Run `npx create-next-app@latest --typescript --use-npm` to create a Next.js app ([ref](https://nextjs.org/learn/basics/create-nextjs-app/setup)).
-3. I am using `nvm 1.1.10` (for windows) with `npm 10.9.0` and `node 22.11.0` (also tested `npm 8.19.2` and `node 18.11.0`). Reinstall npm version inside nvm if Unexpected Token error is encountered during project creation ([ref](https://github.com/npm/cli/issues/4234#issuecomment-1232257450)).
+3. I am using `nvm 1.1.10` (for windows) with `npm 10.9.0` and `node 22.11.0` (aka LTS/JOD) (also tested `npm 8.19.2` and `node 18.11.0`). Reinstall npm version inside nvm if Unexpected Token error is encountered during project creation ([ref](https://github.com/npm/cli/issues/4234#issuecomment-1232257450)).
 4. Configure to deploy to GitHub Pages ([ref](https://www.viget.com/articles/host-build-and-deploy-next-js-projects-on-github-pages/))
 
     - Configure GitHub to enable Pages with `gh-pages` branch. Create the branch `gh-pages` first.
@@ -23,6 +23,7 @@ This page is a developer's note on the development of this project.
     - Configure Next.js to load resources from `/<repo>`.
     - Optionally configure next/Image loader. (not yet)
         - Instead I disable image API optimization.
+    - The [GH Page](https://twkfung.github.io/ycpspta-www/) can be for testing developmental deployment.
 
 ## Routes under a Subpath
 
@@ -36,7 +37,7 @@ Image assets provided to next/Image must be preparing using `import` image state
 WordPress documentations
 
 - [JavaScript client](http://wp-api.org/node-wpapi/api-reference/wpapi/1.1.2/WPAPI.html)
-- [WPAP doc](http://wp-api.org/node-wpapi/api-reference/wpapi/1.1.2/index.html)
+- [WPAPI doc](http://wp-api.org/node-wpapi/api-reference/wpapi/1.1.2/index.html)
 - [Git repo](https://github.com/WP-API/node-wpapi)
 - [WP GraphQL](https://www.wpgraphql.com/)
 
