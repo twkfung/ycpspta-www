@@ -75,7 +75,7 @@ export function Post({
               <Link
                 href={{
                   pathname: "/post/",
-                  query: { slug: post.slug },
+                  query: { name: post.slug },
                 }}
                 onClick={(event) => {
                   event.stopPropagation()
