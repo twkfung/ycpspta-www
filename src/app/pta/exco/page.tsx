@@ -4,7 +4,11 @@ import { WpEnv } from "@/lib/wpapi/WpEnv"
 export default function Page() {
   return (
     <main>
-      <Posts categorySlug={WpEnv.CATEGORY_SLUGS.PTA_EXCO} />
+      <Posts
+        categorySlug={WpEnv.CATEGORY_SLUGS.PTA_EXCO}
+        stickyFirst
+        showStickiness
+      />
     </main>
   )
 }
