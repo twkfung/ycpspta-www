@@ -8,7 +8,7 @@ export type Prettify<T extends object> = {
 }
 
 export type Awaitable<T> = T | PromiseLike<T>
-export type ArrayElement<T extends any[]> = T extends (infer U)[] ? U : never
+export type ArrayElement<T> = T extends (infer U)[] ? U : never
 export type KeyOfValueType<P, T> = {
   [K in keyof P]: P[K] extends T ? K : never
 }[keyof P]
