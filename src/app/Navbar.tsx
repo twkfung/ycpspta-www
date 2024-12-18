@@ -167,6 +167,9 @@ function NavbarDrawer({ navItems }: { navItems: NavItemContainer[] }) {
     <Box sx={{ display: "flex" }}>
       <AppBar position="sticky">
         <Toolbar variant="dense">
+          <IconButton onClick={handleDrawerOpen}>
+            <IconMenu />
+          </IconButton>
           <Link
             href="/"
             onClick={() => setOpen(false)}
@@ -182,9 +185,6 @@ function NavbarDrawer({ navItems }: { navItems: NavItemContainer[] }) {
               家
             </Avatar>
           </Link>
-          <IconButton onClick={handleDrawerOpen}>
-            <IconMenu />
-          </IconButton>
           <Box
             display="flex"
             alignItems="center"
