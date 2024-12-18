@@ -7,6 +7,7 @@ export default function Page() {
       <Posts
         categorySlug={WpEnv.CATEGORY_SLUGS.MEMBERS_NEWSLETTERS}
         stickyFirst
+        showStickiness
       />
     </main>
   )
