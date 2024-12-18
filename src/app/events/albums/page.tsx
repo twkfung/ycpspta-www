@@ -4,7 +4,7 @@ import { WpEnv } from "@/lib/wpapi/WpEnv"
 export default function Page() {
   return (
     <main>
-      <Posts categorySlug={WpEnv.CATEGORY_SLUGS.EVENTS_ALBUMS} />
+      <Posts categorySlug={WpEnv.CATEGORY_SLUGS.EVENTS_ALBUMS} stickyFirst />
     </main>
   )
 }
